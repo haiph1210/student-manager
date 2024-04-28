@@ -1,0 +1,22 @@
+@import '../../../style/abstracts/variables.scss';
+
+.footer-container {
+  //background-color: var(--primary-color);
+
+  @media (max-width: var(--screen-phone)) {
+    width: 300px;
+  }
+
+  @media (min-width: var(--screen-tablet)) and (max-width: var(--screen-laptop)) {
+    width: 500px;
+  }
+
+  @media (min-width: var(--screen-laptop)) {
+    width: 700px;
+  }
+}
+
+.custom-text-footer {
+  text-align: center;
+  color: var(--text-footer-color);
+}

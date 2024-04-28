@@ -1,0 +1,35 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /profile
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: admin
+    url: jdbc:mysql://localhost:3306/profile?createDatabaseIfNotExist=true
+    hikari:
+      username: root
+      password: admin
+  devtools:
+    add-properties: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+# config ??a db init
+#  sql:
+#    init:
+#      mode: always
+#      data-locations: classpath:/initDatabase.sql
+
+security:
+  api:
+    ignores: /auth/**
+
+folder:
+  path: E:/7.code_thue/1.shop_quan_ao/shop_quan_ao/server

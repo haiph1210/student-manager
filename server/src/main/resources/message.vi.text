@@ -1,0 +1,6 @@
+global.message.invalid=Tham số truyền vào {0} không hợp lệ
+global.message.success=Thành công
+global.message.error=Thất bại
+global.message.not.exists=Không tồn tại {0}
+global.message.exists=Đã tồn tại {0}
+#global.message.auth=
