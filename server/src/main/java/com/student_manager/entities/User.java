@@ -23,7 +23,8 @@ import javax.persistence.*;
         },
         indexes = {
                 @Index(name = "IDX_CODE",columnList = "userCode"),
-                @Index(name = "UNQ_USERNAME_EMAIL_PHONE", columnList = "username, email, phoneNumber"),
+                @Index(name = "IDX_USERNAME",columnList = "username"),
+                @Index(name = "IDX_USERNAME_EMAIL_PHONE", columnList = "username, email, phoneNumber"),
 
         })
 public class User extends BaseEntities {
