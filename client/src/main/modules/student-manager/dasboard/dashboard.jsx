@@ -78,7 +78,7 @@ export default function Dashboard(props) {
     useEffect(() => {
         const loginResp = localStorage.getItem("auth");
         if (loginResp) {
-            setIsAuth(loginResp)
+            setIsAuth(JSON.parse(loginResp));
         }
     }, []);
     const handleItemClick = (item) => {
@@ -97,6 +97,14 @@ export default function Dashboard(props) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+
+    const filteredSetting = setting.filter(item => {
+        if (!isAuth || !isAuth.userInfo || !isAuth.userInfo.role) {
+            return false;
+        }
+        return !item.role || item.role.includes(isAuth.userInfo.role);
+    });
 
     return (
         <>
@@ -136,9 +144,9 @@ export default function Dashboard(props) {
                             </IconButton>
                         </DrawerHeader>
                         <Divider/>
-                        {isAuth &&
+                        {isAuth && (
                             <List>
-                                {setting && setting.map((item, index) => (
+                                {filteredSetting && filteredSetting.map((item, index) => (
                                     <div key={index}>
                                         <ListItem disablePadding>
                                             <ListItemButton
@@ -175,7 +183,7 @@ export default function Dashboard(props) {
                                     </div>
                                 ))}
                             </List>
-                        }
+                        )}
 
                     </Drawer>
                     <Main open={open}>

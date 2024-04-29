@@ -13,19 +13,37 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LoginIcon from '@mui/icons-material/Login';
 
 export const setting = [
-    {"title": "Trang chủ", "icon": <HouseIcon/>, "path": "/"},
+    {
+        "title": "Trang chủ", "icon": <HouseIcon/>, "path": "/",
+        "role": ["ADMIN", "USER"],
+    },
     {
         "title": "Quản lý khoa", "icon": <AssignmentTurnedInIcon/>, "path": "/faculty",
-        "role": ["ADMIN", "USER"],
+        "role": ["ADMIN"],
         // "children": [
         //     {"title": "Danh sách khoa", "icon": <AssignmentTurnedInIcon/>, "path": "/faculty"},
         // ]
     },
-    {"title": "Quản lý ngành học", "icon": <GradingIcon/>, "path": "/major"},
-    {"title": "Quản lý người dùng", "icon": <AccountCircleIcon/>, "path": "/user"},
-    {"title": "Quản lý lớp học", "icon": <SchoolIcon/>, "path": "/class"},
-    {"title": "Quản lý môn học", "icon": <MenuBookIcon/>, "path": "/subject"},
-    {"title": "Quản lý thời khóa biểu", "icon": <CalendarMonthIcon/>, "path": "/schedule"}
+    {
+        "title": "Quản lý ngành học", "icon": <GradingIcon/>, "path": "/major",
+        "role": ["ADMIN"],
+    },
+    {
+        "title": "Quản lý người dùng", "icon": <AccountCircleIcon/>, "path": "/user",
+        "role": ["ADMIN", "USER"],
+    },
+    {
+        "title": "Quản lý lớp học", "icon": <SchoolIcon/>, "path": "/class",
+        "role": ["ADMIN", "USER"],
+    },
+    {
+        "title": "Quản lý môn học", "icon": <MenuBookIcon/>, "path": "/subject",
+        "role": ["ADMIN", "USER"],
+    },
+    {
+        "title": "Quản lý thời khóa biểu", "icon": <CalendarMonthIcon/>, "path": "/schedule",
+        "role": ["ADMIN"],
+    }
 ]
 
 export const userManagerSetting =
