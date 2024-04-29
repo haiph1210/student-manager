@@ -17,7 +17,6 @@ import java.util.List;
 @Table(name = "TBL_MAJOR")
 public class Major extends BaseEntities {
     private String majorName;
-    private Float totalYearLearn = 2f;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id", nullable = false)
