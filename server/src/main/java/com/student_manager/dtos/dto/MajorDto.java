@@ -1,6 +1,6 @@
 package com.student_manager.dtos.dto;
 
-import com.student_manager.dtos.requests.ClassRequest;
+import com.student_manager.dtos.requests.MajorRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class MajorDto {
-    private List<Long> classIds;
-    private List<ClassRequest> classRequests;
+    private List<Long> majorIds;
+    private List<MajorRequest> majors;
 }

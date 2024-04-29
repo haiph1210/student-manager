@@ -1,6 +1,7 @@
 package com.student_manager.core;
 
 import com.student_manager.utils.Translator;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
@@ -14,6 +15,9 @@ public abstract class BaseService {
     protected LocaleResolver localeResolver;
     @Autowired
     protected Translator translator;
+
+    @Autowired
+    protected ModelMapper modelMapper;
 
 
     protected String getLocaleFromRequest(HttpServletRequest request) {

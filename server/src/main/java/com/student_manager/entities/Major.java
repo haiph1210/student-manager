@@ -1,5 +1,6 @@
 package com.student_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student_manager.core.BaseEntities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +19,9 @@ import java.util.List;
 public class Major extends BaseEntities {
     private String majorName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "faculty_id", nullable = false)
+    @JsonIgnoreProperties("majors")
     private Faculty faculty;
 
     @OneToMany(mappedBy = "major", cascade = CascadeType.ALL)

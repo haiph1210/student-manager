@@ -11,9 +11,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassRequest {
+public class SubjectRequest {
     @NotNull
-    private String name;
+    private String subjectName;
     @NotNull
-    private Long majorId;
+    private Integer credits;
+
 }
