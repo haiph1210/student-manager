@@ -18,6 +18,8 @@ import ListItemText from '@mui/material/ListItemText';
 import {Link} from "react-router-dom";
 import {setting} from "../../../utils/setting";
 import Header from "../headers/header";
+import Footer from "../footer/footer";
+import {useEffect} from "react";
 
 const drawerWidth = 240;
 
@@ -69,11 +71,23 @@ const DrawerHeader = styled('div')(({theme}) => ({
 export default function Dashboard(props) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [selectedItem, setSelectedItem] = React.useState(null);
+    const [childMenu, setChildMenu] = React.useState(null);
+    const [isAuth, setIsAuth] = React.useState(null);
 
-    const [selectedPath, setSelectedPath] = React.useState('');
-
-    const handleItemClick = (path) => {
-        setSelectedPath(path);
+    useEffect(() => {
+        const loginResp = localStorage.getItem("auth");
+        if (loginResp) {
+            setIsAuth(loginResp)
+        }
+    }, []);
+    const handleItemClick = (item) => {
+        setSelectedItem(item);
+        if (item.children) {
+            setChildMenu(item.children);
+        } else {
+            setChildMenu(null);
+        }
     };
 
     const handleDrawerOpen = () => {
@@ -122,19 +136,46 @@ export default function Dashboard(props) {
                             </IconButton>
                         </DrawerHeader>
                         <Divider/>
-                        <List>
-                            {setting.map((item, index) => (
-                                <ListItem key={index} disablePadding>
-                                    <ListItemButton component={Link} to={item.path}
-                                                    onClick={() => handleItemClick(item)}>
-                                        <ListItemIcon>
-                                            {item.icon}
-                                        </ListItemIcon>
-                                        <ListItemText primary={item.title}/>
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
+                        {isAuth &&
+                            <List>
+                                {setting && setting.map((item, index) => (
+                                    <div key={index}>
+                                        <ListItem disablePadding>
+                                            <ListItemButton
+                                                component={Link}
+                                                to={item.path}
+                                                selected={selectedItem === item}
+                                                onClick={() => handleItemClick(item)}
+                                            >
+                                                <ListItemIcon>
+                                                    {item.icon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={item.title}/>
+                                            </ListItemButton>
+                                        </ListItem>
+                                        {item.children && (
+                                            <List>
+                                                {item.children.map((child, childIndex) => (
+                                                    <ListItem key={childIndex} disablePadding>
+                                                        <ListItemButton
+                                                            component={Link}
+                                                            to={child.path}
+                                                            selected={selectedItem === child}
+                                                            onClick={() => handleItemClick(child)}
+                                                        >
+                                                            <ListItemIcon>
+                                                                {child.icon}
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={child.title}/>
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        )}
+                                    </div>
+                                ))}
+                            </List>
+                        }
 
                     </Drawer>
                     <Main open={open}>
@@ -143,7 +184,7 @@ export default function Dashboard(props) {
                         </div>
 
                         <DrawerHeader/>
-                        {/*<Footer name={"Quang Hải"}/>*/}
+                        <Footer/>
                     </Main>
                 </Box>
                 <Divider/>
@@ -152,4 +193,3 @@ export default function Dashboard(props) {
         </>
     );
 }
-

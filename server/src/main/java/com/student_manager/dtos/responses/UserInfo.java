@@ -1,5 +1,6 @@
 package com.student_manager.dtos.responses;
 
+import com.student_manager.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-    private String token;
-    private String expiredTime;
-    private String refreshToken;
-    private UserInfo userInfo;
+public class UserInfo {
+    private Long id;
+    private String userCode;
+    private String fullName;
+    private Role role;
 }

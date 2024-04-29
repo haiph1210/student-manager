@@ -54,7 +54,7 @@ export default function Footer(props) {
                 <Divider/>
                 <div className="custom-text-footer">
                     <p className="m-lg-3">Copyright © 2024.</p>
-                    <p className="m-lg-3">Portfolio Created By {props.name}</p>
+                    {/*<p className="m-lg-3">Portfolio Created By {props.name}</p>*/}
                 </div>
             </div>
         </>

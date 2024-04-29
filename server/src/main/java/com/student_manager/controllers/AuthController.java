@@ -22,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) throws ApiException {
         BaseResponse<?> response = new BaseResponse<>(authenticationService.login(request));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

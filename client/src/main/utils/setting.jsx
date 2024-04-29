@@ -14,7 +14,13 @@ import LoginIcon from '@mui/icons-material/Login';
 
 export const setting = [
     {"title": "Trang chủ", "icon": <HouseIcon/>, "path": "/"},
-    {"title": "Quản lý khoa", "icon": <AssignmentTurnedInIcon/>, "path": "/faculty"},
+    {
+        "title": "Quản lý khoa", "icon": <AssignmentTurnedInIcon/>, "path": "/faculty",
+        "role": ["ADMIN", "USER"],
+        // "children": [
+        //     {"title": "Danh sách khoa", "icon": <AssignmentTurnedInIcon/>, "path": "/faculty"},
+        // ]
+    },
     {"title": "Quản lý ngành học", "icon": <GradingIcon/>, "path": "/major"},
     {"title": "Quản lý người dùng", "icon": <AccountCircleIcon/>, "path": "/user"},
     {"title": "Quản lý lớp học", "icon": <SchoolIcon/>, "path": "/class"},

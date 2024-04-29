@@ -7,7 +7,7 @@ import com.student_manager.dtos.responses.AuthenticationResponse;
 import com.student_manager.entities.User;
 
 public interface AuthenticationService {
-    AuthenticationResponse login(LoginRequest request);
+    AuthenticationResponse login(LoginRequest request) throws ApiException;
 
     User register(UserRequest request, boolean isAdmin) throws ApiException;
 }

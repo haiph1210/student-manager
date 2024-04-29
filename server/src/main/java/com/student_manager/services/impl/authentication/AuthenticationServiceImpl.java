@@ -4,8 +4,10 @@ import com.student_manager.core.ApiException;
 import com.student_manager.dtos.requests.LoginRequest;
 import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.dtos.responses.AuthenticationResponse;
+import com.student_manager.dtos.responses.UserInfo;
 import com.student_manager.entities.User;
 import com.student_manager.services.UserService;
+import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.DateTimeUtils;
 import com.student_manager.utils.DateUtil;
 import com.student_manager.utils.jwt.JwtUtils;
@@ -33,7 +35,7 @@ public class AuthenticationServiceImpl implements com.student_manager.services.A
     }
 
     @Override
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponse login(LoginRequest request) throws ApiException {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -47,11 +49,24 @@ public class AuthenticationServiceImpl implements com.student_manager.services.A
         String pattent = DateTimeUtils.DATE_PATTERN;
         String expiredTimeString = DateUtil.toDate(expiredTime, pattent);
         String refreshToken = generateToken.generateJwtToken(authentication);
+        User user = userService.findByUsername(request.getUsername());
+        String firstName = !DataUtils.isNullOrEmpty(user.getFirstName())
+                ? user.getFirstName() : "";
+        String lastName = !DataUtils.isNullOrEmpty(user.getLastName())
+                ? user.getLastName() : "";
+        UserInfo userInfo = UserInfo
+                .builder()
+                .id(user.getId())
+                .userCode(user.getUserCode())
+                .fullName(firstName + lastName)
+                .role(user.getRole())
+                .build();
         return AuthenticationResponse
                 .builder()
                 .token(token)
                 .expiredTime(expiredTimeString)
                 .refreshToken(refreshToken)
+                .userInfo(userInfo)
                 .build();
     }
 

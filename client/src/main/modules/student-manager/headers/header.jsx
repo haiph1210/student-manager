@@ -15,18 +15,16 @@ import ListItemText from "@mui/material/ListItemText";
 import {MenuItem} from "@mui/material";
 
 export default function Header(props) {
-    const [loginStatus, setLoginStatus] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [settings, setSettings] = React.useState(null);
     const [userProfile, setUserProfile] = React.useState(null);
 
     useEffect(() => {
-        const login = localStorage.getItem("LS_LOGIN_STATUS");
-        const user = localStorage.getItem("LS_USER_PROFILE");
+        const login = localStorage.getItem("auth");
         if (login) {
-            setLoginStatus(login);
             setSettings(userManagerSetting[0]);
-            setUserProfile(user);
+            const loginResponse = JSON.parse(login);
+            setUserProfile(loginResponse.userInfo);
         } else {
             setSettings(userManagerSetting[1]);
         }
