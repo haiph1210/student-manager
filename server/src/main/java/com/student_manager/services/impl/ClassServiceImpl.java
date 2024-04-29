@@ -38,7 +38,7 @@ public class ClassServiceImpl extends BaseService implements com.student_manager
         return classRepository.findById(id)
                 .orElseThrow(()
                         -> new ApiException(ERROR.INVALID_REQUEST,
-                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: ", id))));
+                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: %s", id))));
     }
 
     @Override

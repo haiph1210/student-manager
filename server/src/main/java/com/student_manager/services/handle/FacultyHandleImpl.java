@@ -22,6 +22,6 @@ public class FacultyHandleImpl extends BaseService {
         return facultyRepository.findById(id)
                 .orElseThrow(()
                         -> new ApiException(ERROR.INVALID_REQUEST,
-                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: ", id))));
+                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: %s", id))));
     }
 }

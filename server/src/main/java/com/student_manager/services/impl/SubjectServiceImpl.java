@@ -9,7 +9,6 @@ import com.student_manager.repositories.SubjectRepository;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class SubjectServiceImpl extends BaseService implements com.student_manag
         return subjectRepository.findById(id)
                 .orElseThrow(()
                         -> new ApiException(ERROR.INVALID_REQUEST,
-                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: ", id))));
+                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: %s", id))));
     }
 
     @Override

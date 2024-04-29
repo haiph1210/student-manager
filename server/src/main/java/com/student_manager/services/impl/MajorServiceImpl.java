@@ -7,7 +7,6 @@ import com.student_manager.entities.Class;
 import com.student_manager.entities.Faculty;
 import com.student_manager.entities.Major;
 import com.student_manager.repositories.MajorRepository;
-import com.student_manager.services.handle.ClassHandleImpl;
 import com.student_manager.services.handle.FacultyHandleImpl;
 import com.student_manager.services.handle.MajorHandleImpl;
 import com.student_manager.utils.DataUtils;
@@ -23,15 +22,12 @@ public class MajorServiceImpl extends BaseService implements com.student_manager
     private final MajorRepository majorRepository;
     private final MajorHandleImpl majorHandle;
     private final FacultyHandleImpl facultyHandle;
-    private final ClassHandleImpl classHandle;
 
     public MajorServiceImpl(MajorRepository majorRepository,
-                            MajorHandleImpl majorHandle, FacultyHandleImpl facultyHandle,
-                            ClassHandleImpl classHandle) {
+                            MajorHandleImpl majorHandle, FacultyHandleImpl facultyHandle) {
         this.majorRepository = majorRepository;
         this.majorHandle = majorHandle;
         this.facultyHandle = facultyHandle;
-        this.classHandle = classHandle;
     }
 
     public List<Major> findAll() {

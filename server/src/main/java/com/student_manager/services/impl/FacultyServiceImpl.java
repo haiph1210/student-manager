@@ -2,36 +2,29 @@ package com.student_manager.services.impl;
 
 import com.student_manager.core.ApiException;
 import com.student_manager.core.BaseService;
-import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.FacultyRequest;
-import com.student_manager.dtos.requests.MajorRequest;
 import com.student_manager.entities.Faculty;
 import com.student_manager.entities.Major;
 import com.student_manager.repositories.FacultyRepository;
 import com.student_manager.services.handle.FacultyHandleImpl;
-import com.student_manager.services.handle.MajorHandleImpl;
 import com.student_manager.utils.DataUtils;
-import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
 public class FacultyServiceImpl extends BaseService implements com.student_manager.services.FacultyService {
     private final FacultyRepository facultyRepository;
-    private final MajorHandleImpl majorHandle;
     private final FacultyHandleImpl facultyHandle;
 
     public FacultyServiceImpl(FacultyRepository facultyRepository, ModelMapper modelMapper,
-                              MajorHandleImpl majorHandle, FacultyHandleImpl facultyHandle) {
+                              FacultyHandleImpl facultyHandle) {
         this.facultyRepository = facultyRepository;
         this.modelMapper = modelMapper;
-        this.majorHandle = majorHandle;
         this.facultyHandle = facultyHandle;
     }
 

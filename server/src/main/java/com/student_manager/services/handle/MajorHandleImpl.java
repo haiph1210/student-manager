@@ -3,7 +3,6 @@ package com.student_manager.services.handle;
 import com.student_manager.core.ApiException;
 import com.student_manager.core.BaseService;
 import com.student_manager.core.ERROR;
-import com.student_manager.entities.Faculty;
 import com.student_manager.entities.Major;
 import com.student_manager.repositories.MajorRepository;
 import com.student_manager.utils.MessageUtils;
@@ -25,7 +24,7 @@ public class MajorHandleImpl extends BaseService {
         return majorRepository.findById(id)
                 .orElseThrow(()
                         -> new ApiException(ERROR.INVALID_REQUEST,
-                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: ", id))));
+                        this.translator.toLocaleByFormatString(MessageUtils.GLOBAL_MESSAGE_NOT_EXISTS, String.format("ID: %s", id))));
     }
 
     public List<Major> findAllMajorByIds(List<Long> ids) {

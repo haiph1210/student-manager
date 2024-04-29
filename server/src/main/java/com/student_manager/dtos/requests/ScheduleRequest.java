@@ -12,11 +12,14 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudentRequest {
+public class ScheduleRequest {
     @NotNull
-    private Date yearOfAdmission;
+    private Date startTime;
     @NotNull
-    private String userCode;
+    private Date endTime;
     @NotNull
     private Long classId;
+    @NotNull
+    private Long subjectId;
+
 }
