@@ -1,0 +1,20 @@
+.form-container {
+  padding: 6rem; /* Thêm padding để tạo khoảng cách xung quanh form */
+  border-radius: 10px; /* Bo tròn góc của form */
+  background-color: #f9f9f9; /* Màu nền của form */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+  width: 100%;
+  height: 100%;
+  background-image: url('../../../../assets/images/background-login/background-login-2.jpg'); /* Đường dẫn đến ảnh nền */
+  //background-size: cover; /* Đảm bảo ảnh nền sẽ được phù hợp với kích thước của form */
+  background-position: center; /* Căn giữa ảnh nền */
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  //background-image: url('../../../../assets/images/background-login/background-login-2.jpg'); /* Đường dẫn đến ảnh nền */
+  //background-size: cover; /* Đảm bảo ảnh nền sẽ được phù hợp với kích thước của form */
+  //background-position: center; /* Căn giữa ảnh nền */
+
+}
