@@ -1,9 +1,10 @@
-package com.student_manager.services.impl.jwt;
+package com.student_manager.services.impl.authentication;
 
 import com.student_manager.entities.User;
 import com.student_manager.utils.DataUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -26,11 +28,9 @@ public class CustomUserDetails implements UserDetails {
     private String phoneNumber;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, String userCode, String fullName, String username, String password, String email, String phoneNumber, List<GrantedAuthority> authorities) {
-        super();
-    }
 
-    public static CustomUserDetails build(User user) {
+
+    public CustomUserDetails build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
         String firstName = !DataUtils.isNullOrEmpty(user.getFirstName()) ? user.getFirstName() : "";

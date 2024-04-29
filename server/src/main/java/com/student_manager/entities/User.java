@@ -3,6 +3,7 @@ package com.student_manager.entities;
 import com.student_manager.enums.Gender;
 import com.student_manager.core.BaseEntities;
 import com.student_manager.enums.Role;
+import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.GenerateTracking;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,9 +47,19 @@ public class User extends BaseEntities {
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Student student;
+
+    @PrePersist
+    public void prePersist() {
+        if (DataUtils.isNullOrEmpty(this.userCode)) {
+            this.userCode = GenerateTracking.generateRandomString(20);
+        }
+        if (DataUtils.isNull(this.role)) {
+            this.role = Role.USER;
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.student_manager.config.sercurity;
 
-import com.student_manager.services.impl.jwt.UserDetailsServiceImpl;
+import com.student_manager.services.impl.authentication.UserDetailsServiceImpl;
 import com.student_manager.utils.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

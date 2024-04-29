@@ -6,10 +6,13 @@ import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.entities.Student;
 import com.student_manager.entities.User;
+import com.student_manager.enums.Role;
+import com.student_manager.mapper.impl.UserMapper;
 import com.student_manager.repositories.UserRepository;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +21,14 @@ import java.util.List;
 @Log4j2
 public class UserServiceImpl extends BaseService implements com.student_manager.services.UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                           UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -67,6 +75,13 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     @Override
+    public User createAdmin(UserRequest request) throws ApiException {
+        User user = this.handleUser(null, request);
+        user.setRole(Role.ADMIN);
+        return userRepository.save(user);
+    }
+
+    @Override
     public User update(Long id, UserRequest request) throws ApiException {
         User oldUser = this.findById(id);
         User user = this.handleUser(oldUser, request);
@@ -74,7 +89,9 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     private User handleUser(User oldUser, UserRequest request) throws ApiException {
-        User user = modelMapper.map(request, User.class);
+//        User user = modelMapper.map(request, User.class);
+        User user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         //passwordEncoder
         if (!DataUtils.isNull(oldUser)) {
             user.setId(oldUser.getId());

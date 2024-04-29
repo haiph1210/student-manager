@@ -1,6 +1,6 @@
 package com.student_manager.utils.jwt;
 
-import com.student_manager.services.impl.jwt.CustomUserDetails;
+import com.student_manager.services.impl.authentication.CustomUserDetails;
 import io.jsonwebtoken.*;
 
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +28,10 @@ public class JwtUtils {
                 .setExpiration(new Date(new Date().getTime() + expirationMs))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+    }
+
+    public Date generateExpiration() {
+        return new Date(new Date().getTime() + expirationMs);
     }
 
     public String getUsernameFromJwtToken(String token) {

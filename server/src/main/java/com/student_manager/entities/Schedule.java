@@ -1,5 +1,6 @@
 package com.student_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student_manager.core.BaseEntities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class Schedule extends BaseEntities {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", nullable = false)
+    @JsonIgnoreProperties("schedules")
     private Class aClass;
 
     @OneToOne

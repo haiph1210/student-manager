@@ -1,5 +1,6 @@
 package com.student_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student_manager.core.BaseEntities;
 import com.student_manager.utils.GenerateTracking;
 import lombok.AllArgsConstructor;
@@ -33,11 +34,11 @@ public class Student extends BaseEntities {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties("student")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "class_id", nullable = false)
+    @JoinColumn(name = "class_id")
+    @JsonIgnoreProperties("students")
     private Class aClass;
-
-    // Constructors, getters, setters
 }

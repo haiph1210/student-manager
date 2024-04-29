@@ -19,5 +19,7 @@ public interface UserService {
 
     User create(UserRequest request) throws ApiException;
 
+    User createAdmin(UserRequest request) throws ApiException;
+
     User update(Long id, UserRequest request) throws ApiException;
 }

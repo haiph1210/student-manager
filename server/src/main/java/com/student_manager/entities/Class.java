@@ -1,5 +1,6 @@
 package com.student_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student_manager.core.BaseEntities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class Class extends BaseEntities {
     private Long totalPeople;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id", nullable = false)
+    @JsonIgnoreProperties("classes")
     private Major major;
 
     @OneToMany(mappedBy = "aClass", cascade = CascadeType.ALL)
