@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import {Link} from 'react-router-dom';
