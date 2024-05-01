@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {
-    Container,
-    TextField,
     Button,
-    Typography,
-    InputAdornment,
+    Container,
+    FormControl,
     IconButton,
-    Select,
+    InputAdornment,
+    InputLabel,
     MenuItem,
-    InputLabel, FormControl
+    Select,
+    TextField,
+    Typography
 } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -17,10 +18,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './register.scss';
 import Swal from "sweetalert2";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {register} from "../authentication.service";
 
 export default function Register(key, value) {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -31,26 +29,52 @@ export default function Register(key, value) {
     const formik = useFormik({
         initialValues: {
             username: '',
-            password: ''
+            password: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            nation: '',
+            dateOfBirth: '',
+            citizenId: '',
+            religion: '',
+            nationality: '',
+            gender: '',
         },
         validationSchema: Yup.object({
             username: Yup.string().required('Vui lòng nhập tên đăng nhập.'),
-            password: Yup.string().required('Vui lòng nhập mật khẩu.')
+            password: Yup.string().required('Vui lòng nhập mật khẩu.'),
+            firstName: Yup.string().required('Vui lòng nhập họ.'),
+            lastName: Yup.string().required('Vui lòng nhập tên.'),
+            email: Yup.string()
+                .email('Email không hợp lệ')
+                .required('Vui lòng nhập email.'),
+            phoneNumber: Yup.string()
+                .matches(/^[0-9]+$/, 'Số điện thoại chỉ chứa số')
+                .min(10, 'Số điện thoại phải ít nhất 10 ký tự')
+                .max(10, 'Số điện thoại không được vượt quá 10 ký tự')
+                .required('Vui lòng nhập số điện thoại.'),
+            dateOfBirth: Yup.date()
+                .typeError('Ngày sinh không hợp lệ')
+                .required('Vui lòng nhập ngày sinh.'),
         }),
         onSubmit: async (values) => {
 
-            // const loginResponse = await login({request: values});
-            // if (loginResponse) {
-            //     localStorage.setItem("auth", JSON.stringify(loginResponse.data));
-            //     window.location.href = "/";
-            // }
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công!',
-                text: 'Đăng nhập thành công!,',
-                showConfirmButton: true,
-                timer: 1500
-            });
+            const registerResp = await register({request: values});
+            if (registerResp) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: 'Đăng kí tài khoản thành công, Hệ thống sẽ chuyển về màn hình đăng nhập !',
+                    showConfirmButton: true,
+                    timer: 1500
+                });
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 1000)
+            }
+
         }
     });
 
@@ -99,12 +123,12 @@ export default function Register(key, value) {
                     <TextField
                         label="Họ"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="firstName" // Chỉnh sửa tên của trường để phản ánh chính xác dữ liệu
+                        value={formik.values.firstName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        error={formik.touched.firstName && !!formik.errors.firstName}
+                        helperText={formik.touched.firstName && formik.errors.firstName}
                         margin="normal"
                         fullWidth
                     />
@@ -112,12 +136,12 @@ export default function Register(key, value) {
                     <TextField
                         label="Tên"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="lastName" // Chỉnh sửa tên của trường để phản ánh chính xác dữ liệu
+                        value={formik.values.lastName}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        error={formik.touched.lastName && !!formik.errors.lastName}
+                        helperText={formik.touched.lastName && formik.errors.lastName}
                         margin="normal"
                         fullWidth
                     />
@@ -125,12 +149,12 @@ export default function Register(key, value) {
                     <TextField
                         label="Email"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="email" // Chỉnh sửa tên của trường để phản ánh chính xác dữ liệu
+                        value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        error={formik.touched.email && !!formik.errors.email}
+                        helperText={formik.touched.email && formik.errors.email}
                         margin="normal"
                         fullWidth
                     />
@@ -138,12 +162,12 @@ export default function Register(key, value) {
                     <TextField
                         label="Số điện thoại"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="phoneNumber"
+                        value={formik.values.phoneNumber}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        error={formik.touched.phoneNumber && !!formik.errors.phoneNumber}
+                        helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                         margin="normal"
                         fullWidth
                     />
@@ -151,12 +175,12 @@ export default function Register(key, value) {
                     <TextField
                         label="Địa chỉ"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="address"
+                        value={formik.values.address}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        // error={formik.touched.address && !!formik.errors.address}
+                        // helperText={formik.touched.address && formik.errors.address}
                         margin="normal"
                         fullWidth
                     />
@@ -164,67 +188,62 @@ export default function Register(key, value) {
                     <TextField
                         label="Quốc gia"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="nation"
+                        value={formik.values.nation}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        // error={formik.touched.nation && !!formik.errors.nation}
+                        // helperText={formik.touched.nation && formik.errors.nation}
                         margin="normal"
                         fullWidth
                     />
-
 
                     <TextField
-                        label="Quốc gia"
+                        label="Ngày sinh"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="dateOfBirth"
+                        value={formik.values.dateOfBirth}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        error={formik.touched.dateOfBirth && !!formik.errors.dateOfBirth}
+                        helperText={formik.touched.dateOfBirth && formik.errors.dateOfBirth}
                         margin="normal"
                         fullWidth
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DatePicker']}>
-                            <DatePicker label="Basic date picker"/>
-                        </DemoContainer>
-                    </LocalizationProvider>
+
                     <TextField
                         label="CMND/CCCD"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="citizenId"
+                        value={formik.values.citizenId}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        // error={formik.touched.citizenId && !!formik.errors.citizenId}
+                        // helperText={formik.touched.citizenId && formik.errors.citizenId}
                         margin="normal"
                         fullWidth
                     />
                     <TextField
                         label="Tôn giáo"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="religion"
+                        value={formik.values.religion}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        // error={formik.touched.religion && !!formik.errors.religion}
+                        // helperText={formik.touched.religion && formik.errors.religion}
                         margin="normal"
                         fullWidth
                     />
                     <TextField
                         label="Quốc tịch"
                         variant="outlined"
-                        name="username"
-                        value={formik.values.username}
+                        name="nationality"
+                        value={formik.values.nationality}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
+                        // error={formik.touched.nationality && !!formik.errors.nationality}
+                        // helperText={formik.touched.nationality && formik.errors.nationality}
                         margin="normal"
                         fullWidth
                     />
@@ -233,12 +252,13 @@ export default function Register(key, value) {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
+                            name={"gender"}
                             value={formik.values.gender}
                             label="Giới tính"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.username && !!formik.errors.username}
-                            helperText={formik.touched.username && formik.errors.username}
+                            error={formik.touched.gender && !!formik.errors.gender}
+                            helperText={formik.touched.gender && formik.errors.gender}
                         >
                             <MenuItem value={"MALE"}>Nam</MenuItem>
                             <MenuItem value={"FEMALE"}>Nữ</MenuItem>

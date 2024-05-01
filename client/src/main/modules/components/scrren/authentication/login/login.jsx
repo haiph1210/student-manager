@@ -7,7 +7,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './login.scss';
 import Swal from "sweetalert2";
-import {login} from "./LoginService";
+import {login} from "../authentication.service";
 
 export default function Login(key, value) {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -28,16 +28,17 @@ export default function Login(key, value) {
 
             const loginResponse = await login({request: values});
             if (loginResponse) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: 'Đăng nhập thành công!,',
+                    showConfirmButton: true,
+                    timer: 1500
+                });
                 localStorage.setItem("auth", JSON.stringify(loginResponse.data));
                 window.location.href = "/";
             }
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công!',
-                text: 'Đăng nhập thành công!,',
-                showConfirmButton: true,
-                timer: 1500
-            });
+
         }
     });
 
