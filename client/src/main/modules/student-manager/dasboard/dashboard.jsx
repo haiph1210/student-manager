@@ -188,7 +188,7 @@ export default function Dashboard(props) {
                     </Drawer>
                     <Main open={open}>
                         <div className={"mt-5"}>
-
+                            {props.children}
                         </div>
 
                         <DrawerHeader/>
