@@ -1,5 +1,15 @@
 import React, {useState} from 'react';
-import {Container, TextField, Button, Typography, InputAdornment, IconButton} from '@mui/material';
+import {
+    Container,
+    TextField,
+    Button,
+    Typography,
+    InputAdornment,
+    IconButton,
+    Select,
+    MenuItem,
+    InputLabel, FormControl
+} from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {Link} from "react-router-dom";
@@ -7,6 +17,10 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './register.scss';
 import Swal from "sweetalert2";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function Register(key, value) {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -109,19 +123,6 @@ export default function Register(key, value) {
                     />
 
                     <TextField
-                        label="Tên đăng nhập"
-                        variant="outlined"
-                        name="username"
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        error={formik.touched.username && !!formik.errors.username}
-                        helperText={formik.touched.username && formik.errors.username}
-                        margin="normal"
-                        fullWidth
-                    />
-
-                    <TextField
                         label="Email"
                         variant="outlined"
                         name="username"
@@ -174,7 +175,6 @@ export default function Register(key, value) {
                     />
 
 
-
                     <TextField
                         label="Quốc gia"
                         variant="outlined"
@@ -187,6 +187,64 @@ export default function Register(key, value) {
                         margin="normal"
                         fullWidth
                     />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DatePicker']}>
+                            <DatePicker label="Basic date picker"/>
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    <TextField
+                        label="CMND/CCCD"
+                        variant="outlined"
+                        name="username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.username && !!formik.errors.username}
+                        helperText={formik.touched.username && formik.errors.username}
+                        margin="normal"
+                        fullWidth
+                    />
+                    <TextField
+                        label="Tôn giáo"
+                        variant="outlined"
+                        name="username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.username && !!formik.errors.username}
+                        helperText={formik.touched.username && formik.errors.username}
+                        margin="normal"
+                        fullWidth
+                    />
+                    <TextField
+                        label="Quốc tịch"
+                        variant="outlined"
+                        name="username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.username && !!formik.errors.username}
+                        helperText={formik.touched.username && formik.errors.username}
+                        margin="normal"
+                        fullWidth
+                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={formik.values.gender}
+                            label="Giới tính"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.username && !!formik.errors.username}
+                            helperText={formik.touched.username && formik.errors.username}
+                        >
+                            <MenuItem value={"MALE"}>Nam</MenuItem>
+                            <MenuItem value={"FEMALE"}>Nữ</MenuItem>
+                        </Select>
+                    </FormControl>
+
 
                     <div className="link m-3">
                         <span>Bạn đã có tài khoản ? </span>
@@ -201,5 +259,6 @@ export default function Register(key, value) {
                 </form>
             </Container>
         </>
-    );
+    )
+        ;
 }
