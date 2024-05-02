@@ -7,6 +7,7 @@ import Register from "../modules/components/scrren/authentication/register/regis
 import Faculty from "../modules/components/scrren/page/faculty-manager/faculty";
 import Major from "../modules/components/scrren/page/major-manager/major";
 import Class from "../modules/components/scrren/page/class-manager/class";
+import Subject from "../modules/components/scrren/page/subject-manager/subject";
 
 export const useAppRoutes = () => {
     return useRoutes([
@@ -27,6 +28,9 @@ export const useAppRoutes = () => {
         },
         {
             path: "/class", element: <Class/>
+        },
+        {
+            path: "/subject", element: <Subject/>
         },
         // =================
 

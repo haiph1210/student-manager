@@ -64,16 +64,20 @@ public class ClassServiceImpl extends BaseService implements com.student_manager
     }
 
     private Class handleClass(Class oldClass, ClassRequest request) throws ApiException {
-        Class aClass = modelMapper.map(request, Class.class);
-        Major major = null;
-        if (!DataUtils.isNull(request.getMajorId())) {
-            major = majorService.findById(request.getMajorId());
-        }
-        aClass.setMajor(major);
-        if (!DataUtils.isNull(oldClass)) {
-            aClass.setId(oldClass.getId());
+        Class aClass = null;
+
+        if (oldClass == null) {
+            aClass = new Class();
+        } else {
+            aClass = oldClass;
         }
 
+        aClass.setName(request.getName());
+        if (!DataUtils.isNull(request.getMajorId())) {
+            Major major = majorService.findById(request.getMajorId());
+            aClass.setMajor(major);
+        }
         return aClass;
     }
+
 }
