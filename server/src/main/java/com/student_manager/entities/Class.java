@@ -19,7 +19,7 @@ import java.util.List;
 public class Class extends BaseEntities {
     private String name;
     private Long totalPeople;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "major_id", nullable = false)
     @JsonIgnoreProperties("classes")
     private Major major;

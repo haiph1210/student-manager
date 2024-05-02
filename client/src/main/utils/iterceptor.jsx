@@ -7,8 +7,10 @@ const instance = axios.create({
 
 const setupInterceptors = () => {
     instance.interceptors.request.use((request) => {
-        const token = localStorage.getItem("token") ? JSON.parse(token) : null;
-        if (token && request.method !== "GET") {
+        const authentication = localStorage.getItem("auth");
+        if (authentication && request.method !== "GET") {
+            const authenticationResp = JSON.parse(authentication);
+            const token = authenticationResp.token;
             request.headers['Authorization'] = 'Bearer' + token;
             request.headers['Cros-Orrigin'] = instance.headers;
         }

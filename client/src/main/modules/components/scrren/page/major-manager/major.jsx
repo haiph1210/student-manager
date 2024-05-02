@@ -1,23 +1,32 @@
-import * as React from 'react';
-import {DataGrid} from '@mui/x-data-grid';
-import {useEffect} from "react";
-import {deleted, getAll} from "./faculty.service";
+import React, {useEffect} from 'react';
 import {formatDate} from "../../../../../utils/date.utils";
-import './faculty.scss';
 import {Button} from "@mui/material";
-import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
-import DeleteSweepSharpIcon from '@mui/icons-material/DeleteSweepSharp';
-import DensitySmallSharpIcon from '@mui/icons-material/DensitySmallSharp';
-import AddIcon from '@mui/icons-material/Add';
-import FacultyModal from "./faculty.modal";
-import Modal from 'react-bootstrap/Modal';
+import DensitySmallSharpIcon from "@mui/icons-material/DensitySmallSharp";
+import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
+import DeleteSweepSharpIcon from "@mui/icons-material/DeleteSweepSharp";
+import AddIcon from "@mui/icons-material/Add";
+import {DataGrid} from "@mui/x-data-grid";
+import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
+import {deleted, getAll} from "./major.service";
+import MajorModal from "./major.modal";
 
-export default function Faculty() {
+export default function Major() {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+
+    function handleAddNew() {
+        setIsModalOpen(true);
+        setModalType('add');
+    }
+
+    function handleEditClick(id) {
+        setSelectedId(id);
+        setIsModalOpen(true);
+        setModalType('edit');
+    }
 
     const handleDelete = async (id) => {
         const deleteResp = await deleted(id);
@@ -29,7 +38,7 @@ export default function Faculty() {
                 showConfirmButton: true,
                 timer: 1500
             });
-            getAllData();
+            getAllDataMajor();
         } else {
             Swal.fire({
                 icon: 'error',
@@ -39,27 +48,15 @@ export default function Faculty() {
                 timer: 1500
             });
         }
-    };
-
-    const handleEditClick = (id) => {
-        setSelectedId(id);
-        setIsModalOpen(true);
-        setModalType('edit');
-        // Additional logic for editing, if needed
-    };
-
-    const handleAddNew = () => {
-        setIsModalOpen(true);
-        setModalType('add');
-    };
+    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setModalType(null);
-        getAllData();
+        getAllDataMajor();
     };
 
-    const getAllData = async () => {
+    const getAllDataMajor = async () => {
         try {
             const response = await getAll();
             if (response && response.data && response.data.length > 0) {
@@ -77,24 +74,46 @@ export default function Faculty() {
     };
 
     useEffect(() => {
-        getAllData();
+        getAllDataMajor();
     }, []);
 
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
-        {field: 'facultyName', headerName: 'Tên khoa', width: 200},
-        {field: 'totalYearLearn', headerName: 'Tổng số năm', width: 130},
+        {field: 'majorName', headerName: 'Tên chuyên ngành', width: 200},
+        {
+            field: 'faculty', headerName: 'Tên khoa', width: 200,
+            valueFormatter: (params) => params.facultyName,
+        },
+        {
+            field: 'classes',
+            headerName: 'Số lớp',
+            width: 180,
+            valueFormatter: (params) => params.length,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => alert("Hi")}
+                    >
+                        <DensitySmallSharpIcon/>
+                        Lớp học
+                    </Button>
+                </div>
+            ),
+        },
         {
             field: 'createdAt',
             headerName: 'Người tạo',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
         },
         {
             field: 'updateAt',
             headerName: 'Người thay đổi',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
 
         },
         {
@@ -110,25 +129,7 @@ export default function Faculty() {
             width: 160,
             valueFormatter: (params) => formatDate(params),
         },
-        {
-            field: 'majors',
-            headerName: 'Số ngành',
-            width: 180,
-            valueFormatter: (params) => params.length,
-            renderCell: (params) => (
-                <div>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => alert("Hi")}
-                    >
-                        <DensitySmallSharpIcon/>
-                        Ngành học
-                    </Button>
-                </div>
-            ),
-        },
+
         {
             field: 'actions',
             headerName: 'Hành động',
@@ -153,6 +154,7 @@ export default function Faculty() {
         },
     ];
 
+
     return (
         <div>
             <div className={"d-flex justify-content-end"}>
@@ -172,7 +174,7 @@ export default function Faculty() {
             <Modal show={isModalOpen}
                    fullscreen={true}
                    onHide={() => setIsModalOpen(false)}>
-                <FacultyModal
+                <MajorModal
                     id={selectedId}
                     type={modalType}
                     onClose={handleCloseModal}/>
@@ -180,4 +182,5 @@ export default function Faculty() {
 
         </div>
     );
-}
+};
+

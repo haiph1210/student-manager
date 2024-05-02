@@ -19,12 +19,12 @@ import java.util.List;
 public class Major extends BaseEntities {
     private String majorName;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "faculty_id", nullable = false)
     @JsonIgnoreProperties("majors")
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "major", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "major")
     private List<Class> classes;
 
 }

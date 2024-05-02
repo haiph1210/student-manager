@@ -1,10 +1,7 @@
 package com.student_manager.entities;
 
 import com.student_manager.core.BaseEntities;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,12 +12,13 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "TBL_FACULTY")
+@ToString
 public class Faculty extends BaseEntities {
     @Column(name = "faculty_name", length = 255)
     private String facultyName;
 
     private Float totalYearLearn = 2f;
 
-    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "faculty")
     private List<Major> majors;
 }

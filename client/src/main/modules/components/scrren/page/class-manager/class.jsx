@@ -1,23 +1,34 @@
-import * as React from 'react';
-import {DataGrid} from '@mui/x-data-grid';
-import {useEffect} from "react";
-import {deleted, getAll} from "./faculty.service";
-import {formatDate} from "../../../../../utils/date.utils";
-import './faculty.scss';
-import {Button} from "@mui/material";
-import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
-import DeleteSweepSharpIcon from '@mui/icons-material/DeleteSweepSharp';
-import DensitySmallSharpIcon from '@mui/icons-material/DensitySmallSharp';
-import AddIcon from '@mui/icons-material/Add';
-import FacultyModal from "./faculty.modal";
-import Modal from 'react-bootstrap/Modal';
+import React, {useEffect} from 'react';
+import {deleted, getAll} from "../class-manager/class.service";
 import Swal from "sweetalert2";
+import {Button} from "@mui/material";
+import {formatDate} from "../../../../../utils/date.utils";
+import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
+import DeleteSweepSharpIcon from "@mui/icons-material/DeleteSweepSharp";
+import AddIcon from "@mui/icons-material/Add";
+import {DataGrid} from "@mui/x-data-grid";
+import Modal from "react-bootstrap/Modal";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ClassModal from "./class.modal";
 
-export default function Faculty() {
+
+export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+
+    function handleAddNew() {
+        setIsModalOpen(true);
+        setModalType('add');
+    }
+
+    function handleEditClick(id) {
+        setSelectedId(id);
+        setIsModalOpen(true);
+        setModalType('edit');
+    }
 
     const handleDelete = async (id) => {
         const deleteResp = await deleted(id);
@@ -39,19 +50,7 @@ export default function Faculty() {
                 timer: 1500
             });
         }
-    };
-
-    const handleEditClick = (id) => {
-        setSelectedId(id);
-        setIsModalOpen(true);
-        setModalType('edit');
-        // Additional logic for editing, if needed
-    };
-
-    const handleAddNew = () => {
-        setIsModalOpen(true);
-        setModalType('add');
-    };
+    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -63,7 +62,12 @@ export default function Faculty() {
         try {
             const response = await getAll();
             if (response && response.data && response.data.length > 0) {
-                setRows(response.data);
+                const formattedData = response.data.map(item => ({
+                    ...item,
+                    majorName: item.major.majorName,
+                    facultyName: item.major.faculty.facultyName,
+                }));
+                setRows(formattedData);
             }
         } catch (error) {
             Swal.fire({
@@ -82,19 +86,63 @@ export default function Faculty() {
 
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
-        {field: 'facultyName', headerName: 'Tên khoa', width: 200},
-        {field: 'totalYearLearn', headerName: 'Tổng số năm', width: 130},
+
+        {field: 'name', headerName: 'Tên lớp', width: 200},
+        {
+            field: 'majorName', headerName: 'Tên chuyên ngành', width: 200,
+        },
+        {
+            field: 'facultyName', headerName: 'Tên khoa', width: 200,
+        },
+        {
+            field: 'students',
+            headerName: 'Số sinh viên',
+            width: 180,
+            valueFormatter: (params) => params.length,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => alert("Hi")}
+                    >
+                        <AccountCircleIcon/>
+                        Sinh viên
+                    </Button>
+                </div>
+            ),
+        },
+        {
+            field: 'schedules',
+            headerName: 'Lịch học',
+            width: 180,
+            valueFormatter: (params) => params.length,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        variant="outlined"
+                        color="info"
+                        size="small"
+                        onClick={() => alert("Hi")}
+                    >
+                        <CalendarMonthIcon/>
+                        Lịch học
+                    </Button>
+                </div>
+            ),
+        },
         {
             field: 'createdAt',
             headerName: 'Người tạo',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
         },
         {
             field: 'updateAt',
             headerName: 'Người thay đổi',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
 
         },
         {
@@ -110,25 +158,7 @@ export default function Faculty() {
             width: 160,
             valueFormatter: (params) => formatDate(params),
         },
-        {
-            field: 'majors',
-            headerName: 'Số ngành',
-            width: 180,
-            valueFormatter: (params) => params.length,
-            renderCell: (params) => (
-                <div>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => alert("Hi")}
-                    >
-                        <DensitySmallSharpIcon/>
-                        Ngành học
-                    </Button>
-                </div>
-            ),
-        },
+
         {
             field: 'actions',
             headerName: 'Hành động',
@@ -153,6 +183,7 @@ export default function Faculty() {
         },
     ];
 
+
     return (
         <div>
             <div className={"d-flex justify-content-end"}>
@@ -172,7 +203,7 @@ export default function Faculty() {
             <Modal show={isModalOpen}
                    fullscreen={true}
                    onHide={() => setIsModalOpen(false)}>
-                <FacultyModal
+                <ClassModal
                     id={selectedId}
                     type={modalType}
                     onClose={handleCloseModal}/>
@@ -180,4 +211,4 @@ export default function Faculty() {
 
         </div>
     );
-}
+};

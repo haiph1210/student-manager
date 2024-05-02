@@ -62,33 +62,25 @@ public class MajorServiceImpl extends BaseService implements com.student_manager
     }
 
     private Major handleMajor(Major oldMajor, MajorRequest request) throws ApiException {
-        Major major = modelMapper.map(request, Major.class);
-        Faculty faculty = null;
-        List<Class> classes = new ArrayList<>();
+        Major major;
+        if (oldMajor == null) {
+            major = new Major(); // Tạo một đối tượng mới nếu không có major cũ
+        } else {
+            major = oldMajor; // Sử dụng major cũ nếu có
+        }
+
+        // Sao chép dữ liệu từ MajorRequest vào Major
+        major.setMajorName(request.getMajorName());
+
+        // Lấy và gán faculty từ facultyId
         if (!DataUtils.isNull(request.getFacultyId())) {
-            faculty = facultyHandle.findById(request.getFacultyId());
+            Faculty faculty = facultyHandle.findById(request.getFacultyId());
+            major.setFaculty(faculty);
+        } else {
+            major.setFaculty(null); // Đặt faculty là null nếu facultyId là null
         }
-//        if (!DataUtils.isNull(request.getClassDto())) {
-//            List<Long> classIds = request.getClassDto().getClassIds();
-//            if (!classIds.isEmpty()) {
-//                classes.addAll(classHandle.findAllByIds(classIds));
-//            } else {
-//                List<ClassRequest> classRequests = request.getClassDto().getClassRequests();
-//                if (!DataUtils.isNull(classRequests) && !classRequests.isEmpty()) {
-//                    classes.addAll(classRequests
-//                            .stream()
-//                            .map(item -> modelMapper.map(item, Class.class))
-//                            .collect(Collectors.toList()));
-//                }
-//            }
-//        }
 
-        major.setFaculty(faculty);
-        major.setClasses(classes);
-
-        if (!DataUtils.isNull(oldMajor)) {
-            major.setId(oldMajor.getId());
-        }
         return major;
     }
+
 }

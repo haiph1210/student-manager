@@ -5,6 +5,8 @@ import Login from "../modules/components/scrren/authentication/login/login";
 import NotFound from "../modules/components/scrren/404/NotFound";
 import Register from "../modules/components/scrren/authentication/register/register";
 import Faculty from "../modules/components/scrren/page/faculty-manager/faculty";
+import Major from "../modules/components/scrren/page/major-manager/major";
+import Class from "../modules/components/scrren/page/class-manager/class";
 
 export const useAppRoutes = () => {
     return useRoutes([
@@ -16,9 +18,18 @@ export const useAppRoutes = () => {
                 // },
             ]
         },
+        // children Dashboard
         {
             path: "/faculty", element: <Faculty/>
         },
+        {
+            path: "/major", element: <Major/>
+        },
+        {
+            path: "/class", element: <Class/>
+        },
+        // =================
+
         {
             path: "/login", element: <Login/>
         },
