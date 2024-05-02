@@ -41,6 +41,7 @@ public class ServerApplication {
         ObjectMapper mapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .registerModule(module);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));

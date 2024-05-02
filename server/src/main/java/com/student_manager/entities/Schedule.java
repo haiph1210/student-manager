@@ -31,6 +31,7 @@ public class Schedule extends BaseEntities {
 
     @OneToOne
     @JoinColumn(name = "subject_id", unique = true, nullable = false)
+    @JsonIgnoreProperties("schedules")
     private Subject subject;
 
 

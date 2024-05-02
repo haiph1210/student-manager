@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
-import {Button, Container, Fade, TextField, Typography} from "@mui/material";
+import {Button, Container, Fade, FormControl, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import AddIcon from '@mui/icons-material/Add';
-import {add, detail, update} from "./subject.service"; 
+import {add, detail, update} from "./schedule.service"; // Assuming you have a function named detail and update
 import Swal from "sweetalert2";
+import {getAll} from "../major-manager/major.service";
 
-const SubjectModal = ({id, type, onClose}) => {
+const ScheduleModal = ({id, type, onClose}) => {
     const [majores, setMajores] = React.useState([]);
     const formik = useFormik({
         initialValues: {
@@ -142,4 +143,4 @@ const SubjectModal = ({id, type, onClose}) => {
     );
 };
 
-export default SubjectModal;
+export default ScheduleModal;

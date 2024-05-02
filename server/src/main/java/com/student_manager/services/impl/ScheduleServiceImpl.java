@@ -13,6 +13,7 @@ import com.student_manager.services.SubjectService;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class ScheduleServiceImpl extends BaseService implements com.student_mana
     private final ScheduleRepository scheduleRepository;
     private final ClassService classService;
     private final SubjectService subjectService;
+    private final ModelMapper modelMapper;
 
     public ScheduleServiceImpl(ScheduleRepository scheduleRepository, ClassService classService,
-                               SubjectService subjectService) {
+                               SubjectService subjectService, ModelMapper modelMapper) {
         this.scheduleRepository = scheduleRepository;
         this.classService = classService;
         this.subjectService = subjectService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -68,7 +71,9 @@ public class ScheduleServiceImpl extends BaseService implements com.student_mana
 
 
     private Schedule handleSchedule(Schedule oldSchedule, ScheduleRequest request) throws ApiException {
-        Schedule schedule = modelMapper.map(request, Schedule.class);
+        Schedule schedule = new Schedule();
+        schedule.setStartTime(request.getStartTime());
+        schedule.setEndTime(request.getEndTime());
         Class aClass = classService.findById(request.getClassId());
         Subject subject = subjectService.findById(request.getSubjectId());
         schedule.setAClass(aClass);
