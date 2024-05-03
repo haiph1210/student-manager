@@ -12,16 +12,20 @@ import AddIcon from '@mui/icons-material/Add';
 import FacultyModal from "./faculty.modal";
 import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
+import NameCard from "../../../../student-manager/share/box";
 
 export default function Faculty() {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [isModalOpenMajor, setIsModalOpenMajor] = React.useState(false);
+    const [major, setMajor] = React.useState([]);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
 
-    const handleOpenModalMajor = () => {
-        setIsModalOpenMajor(true)
+    const handleOpenModalMajor = (majorResp) => {
+        const majors = majorResp.map(major => ({id: major.id, name: major.majorName}));
+        setMajor(majors);
+        setIsModalOpenMajor(true);
     }
     const handleDelete = async (id) => {
         const deleteResp = await deleted(id);
@@ -92,13 +96,13 @@ export default function Faculty() {
             field: 'createdAt',
             headerName: 'Người tạo',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
         },
         {
             field: 'updateAt',
             headerName: 'Người thay đổi',
             width: 130,
-            valueFormatter: (params) => params??"ADMIN"
+            valueFormatter: (params) => params ?? "ADMIN"
 
         },
         {
@@ -125,7 +129,7 @@ export default function Faculty() {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => handleOpenModalMajor()}
+                        onClick={() => handleOpenModalMajor(params.row.majors)}
                     >
                         <DensitySmallSharpIcon/>
                         Ngành học
@@ -181,13 +185,13 @@ export default function Faculty() {
                     type={modalType}
                     onClose={handleCloseModal}/>
             </Modal>
-            <Modal show={isModalOpen}
-                   fullscreen={true}
-                   onHide={() => setIsModalOpen(false)}>
-                <FacultyModal
-                    id={selectedId}
-                    type={modalType}
-                    onClose={handleCloseModal}/>
+            <Modal show={isModalOpenMajor}
+                   size={'lg'}
+                   onHide={() => setIsModalOpenMajor(false)}>
+                <div className="modal-content"
+                     style={{position: 'absolute', top: '150px', zIndex: 1000, padding: "30px"}}>
+                    <NameCard title={"Ngành"} rows={major}/>
+                </div>
             </Modal>
 
         </div>
