@@ -8,7 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.Locale;
 
 @Data
 @AllArgsConstructor
@@ -20,9 +24,8 @@ import java.util.Date;
                 @UniqueConstraint(name = "UNQ_START_END_TIME", columnNames = {"startTime", "endTime"})
         })
 public class Schedule extends BaseEntities {
-    private Date startTime;
-
-    private Date endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id", nullable = false)

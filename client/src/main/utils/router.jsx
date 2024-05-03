@@ -1,5 +1,5 @@
 // Trong file router.jsx
-import {useRoutes} from "react-router-dom";
+import {useRoutes, Outlet} from "react-router-dom";
 import Dashboard from "../modules/student-manager/dasboard/dashboard";
 import Login from "../modules/components/scrren/authentication/login/login";
 import NotFound from "../modules/components/scrren/404/NotFound";
@@ -9,6 +9,7 @@ import Major from "../modules/components/scrren/page/major-manager/major";
 import Class from "../modules/components/scrren/page/class-manager/class";
 import Schedule from "../modules/components/scrren/page/schedule-manager/schedule";
 import Subject from "../modules/components/scrren/page/subject-manager/subject";
+import User from "../modules/components/scrren/page/user-manager/user";
 
 export const useAppRoutes = () => {
     return useRoutes([
@@ -18,24 +19,47 @@ export const useAppRoutes = () => {
                 // {
                 //     path: "/faculty", element: <Faculty/>
                 // },
+
+
+                // children Dashboard
+                {
+                    path: "/faculty", element: <Faculty/>
+                },
+                {
+                    path: "/major", element: <Major/>
+                },
+                {
+                    path: "/class", element: <Class/>
+                },
+                {
+                    path: "/subject", element: <Subject/>
+                },
+                {
+                    path: "/schedule", element: <Schedule/>
+                },
+                {
+                    path: "/user", element: <User/>
+                },
+                {path: "/", element: <Outlet/>},
+                // =================
             ]
         },
         // children Dashboard
-        {
-            path: "/faculty", element: <Faculty/>
-        },
-        {
-            path: "/major", element: <Major/>
-        },
-        {
-            path: "/class", element: <Class/>
-        },
-        {
-            path: "/subject", element: <Subject/>
-        },
-        {
-            path: "/schedule", element: <Schedule/>
-        },
+        // {
+        //     path: "/faculty", element: <Faculty/>
+        // },
+        // {
+        //     path: "/major", element: <Major/>
+        // },
+        // {
+        //     path: "/class", element: <User/>
+        // },
+        // {
+        //     path: "/subject", element: <Subject/>
+        // },
+        // {
+        //     path: "/schedule", element: <Schedule/>
+        // },
         // =================
 
         {

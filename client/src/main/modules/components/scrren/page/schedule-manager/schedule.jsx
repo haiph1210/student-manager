@@ -11,6 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleModal from "./schedule.modal";
+import './schedule.scss'
 
 
 export default function Schedule(props) {
@@ -62,7 +63,16 @@ export default function Schedule(props) {
         try {
             const response = await getAll();
             if (response && response.data && response.data.length > 0) {
-                setRows(response.data);
+                const formattedData = response.data.map(item => ({
+                    ...item,
+                    className: item.aClass.name,
+                    majorName: item.aClass.major.majorName,
+                    facultyName: item.aClass.major.faculty.facultyName,
+                    students: item.aClass.students,
+                    schedules: item.subject.schedules,
+                    subjectName: item.subject.subjectName,
+                }));
+                setRows(formattedData);
             }
         } catch (error) {
             Swal.fire({
@@ -80,12 +90,42 @@ export default function Schedule(props) {
     }, []);
 
     const columns = [
-        {field: 'id', headerName: 'ID', width: 70},
-
-        {field: 'subjectName', headerName: 'Tên môn học', width: 200},
         {
-            field: 'credits', headerName: 'Số tín chỉ', width: 200,
+            field: 'id',
+            headerName: 'ID',
+            width: 70
         },
+        {
+            field: 'className',
+            headerName: 'Tên lớp học',
+            width: 200,
+        },
+        {
+            field: 'subjectName',
+            headerName: 'Tên môn học',
+            width: 200,
+        },
+        {
+            field: 'startTime',
+            headerName: 'Giờ bắt đầu',
+            width: 200
+        },
+        {
+            field: 'endTime',
+            headerName: 'Giờ kết thúc',
+            width: 200,
+        },
+        {
+            field: 'majorName',
+            headerName: 'Ngành học',
+            width: 200,
+        },
+        {
+            field: 'facultyName',
+            headerName: 'Khoa',
+            width: 200,
+        },
+
         {
             field: 'createdAt',
             headerName: 'Người tạo',
@@ -112,7 +152,6 @@ export default function Schedule(props) {
             width: 160,
             valueFormatter: (params) => formatDate(params),
         },
-
         {
             field: 'actions',
             headerName: 'Hành động',
@@ -148,11 +187,12 @@ export default function Schedule(props) {
                 </Button>
             </div>
             <DataGrid
-                className="table-container"
+                className="table-container  mt-2"
                 rows={rows}
                 columns={columns}
                 pageSize={10}
                 checkboxSelection
+                autoHeight
             />
             <Modal show={isModalOpen}
                    fullscreen={true}

@@ -1,17 +1,19 @@
 import React, {useEffect} from 'react';
-import {formatDate} from "../../../../../utils/date.utils";
+import {deleted, getAll} from "./user.service";
+import Swal from "sweetalert2";
 import {Button} from "@mui/material";
-import DensitySmallSharpIcon from "@mui/icons-material/DensitySmallSharp";
+import {formatDate} from "../../../../../utils/date.utils";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import DeleteSweepSharpIcon from "@mui/icons-material/DeleteSweepSharp";
 import AddIcon from "@mui/icons-material/Add";
 import {DataGrid} from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
-import Swal from "sweetalert2";
-import {deleted, getAll} from "./major.service";
-import MajorModal from "./major.modal";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import UserModal from "./user.modal";
 
-export default function Major() {
+
+export default function User(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
@@ -28,39 +30,44 @@ export default function Major() {
         setModalType('edit');
     }
 
-    const handleDelete = async (id) => {
-        const deleteResp = await deleted(id);
-        if (deleteResp) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Thành công!',
-                text: 'Xóa thành công!',
-                showConfirmButton: true,
-                timer: 1500
-            });
-            getAllDataMajor();
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Thất bại!',
-                text: 'Xóa thất bại!',
-                showConfirmButton: true,
-                timer: 1500
-            });
-        }
-    }
+    // const handleDelete = async (id) => {
+    //     const deleteResp = await deleted(id);
+    //     if (deleteResp) {
+    //         Swal.fire({
+    //             icon: 'success',
+    //             title: 'Thành công!',
+    //             text: 'Xóa thành công!',
+    //             showConfirmButton: true,
+    //             timer: 1500
+    //         });
+    //         getAllData();
+    //     } else {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Thất bại!',
+    //             text: 'Xóa thất bại!',
+    //             showConfirmButton: true,
+    //             timer: 1500
+    //         });
+    //     }
+    // }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setModalType(null);
-        getAllDataMajor();
+        getAllData();
     };
 
-    const getAllDataMajor = async () => {
+    const getAllData = async () => {
         try {
             const response = await getAll();
             if (response && response.data && response.data.length > 0) {
-                setRows(response.data);
+                const formattedData = response.data.map(item => ({
+                    ...item,
+                    majorName: item.major.majorName,
+                    facultyName: item.major.faculty.facultyName,
+                }));
+                setRows(formattedData);
             }
         } catch (error) {
             Swal.fire({
@@ -74,19 +81,22 @@ export default function Major() {
     };
 
     useEffect(() => {
-        getAllDataMajor();
+        getAllData();
     }, []);
 
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
-        {field: 'majorName', headerName: 'Tên chuyên ngành', width: 200},
+
+        {field: 'name', headerName: 'Tên lớp', width: 200},
         {
-            field: 'faculty', headerName: 'Tên khoa', width: 200,
-            valueFormatter: (params) => params.facultyName,
+            field: 'majorName', headerName: 'Tên chuyên ngành', width: 200,
         },
         {
-            field: 'classes',
-            headerName: 'Số lớp',
+            field: 'facultyName', headerName: 'Tên khoa', width: 200,
+        },
+        {
+            field: 'students',
+            headerName: 'Số sinh viên',
             width: 180,
             valueFormatter: (params) => params.length,
             renderCell: (params) => (
@@ -97,8 +107,27 @@ export default function Major() {
                         size="small"
                         onClick={() => alert("Hi")}
                     >
-                        <DensitySmallSharpIcon/>
-                        Lớp học
+                        <AccountCircleIcon/>
+                        Sinh viên
+                    </Button>
+                </div>
+            ),
+        },
+        {
+            field: 'schedules',
+            headerName: 'Lịch học',
+            width: 180,
+            valueFormatter: (params) => params.length,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        variant="outlined"
+                        color="info"
+                        size="small"
+                        onClick={() => alert("Hi")}
+                    >
+                        <CalendarMonthIcon/>
+                        Lịch học
                     </Button>
                 </div>
             ),
@@ -143,12 +172,12 @@ export default function Major() {
                         <EditNoteSharpIcon/>
                         Cập nhật
                     </Button>
-                    <Button variant="outlined" color="error"
-                            size="small"
-                            onClick={async () => handleDelete(params.row.id)}>
-                        <DeleteSweepSharpIcon/>
-                        Xóa
-                    </Button>
+                    {/*<Button variant="outlined" color="error"*/}
+                    {/*        size="small"*/}
+                    {/*        onClick={async () => handleDelete(params.row.id)}>*/}
+                    {/*    <DeleteSweepSharpIcon/>*/}
+                    {/*    Xóa*/}
+                    {/*</Button>*/}
                 </div>
             ),
         },
@@ -174,7 +203,7 @@ export default function Major() {
             <Modal show={isModalOpen}
                    fullscreen={true}
                    onHide={() => setIsModalOpen(false)}>
-                <MajorModal
+                <UserModal
                     id={selectedId}
                     type={modalType}
                     onClose={handleCloseModal}/>
@@ -183,4 +212,3 @@ export default function Major() {
         </div>
     );
 };
-

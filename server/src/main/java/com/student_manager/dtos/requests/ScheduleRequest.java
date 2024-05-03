@@ -1,12 +1,15 @@
 package com.student_manager.dtos.requests;
 
-        import lombok.AllArgsConstructor;
-        import lombok.Builder;
-        import lombok.Data;
-        import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-        import javax.validation.constraints.NotNull;
-        import java.util.Date;
+import javax.validation.constraints.NotNull;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +17,9 @@ package com.student_manager.dtos.requests;
 @Builder
 public class ScheduleRequest {
     @NotNull
-    private Date startTime;
+    private LocalTime startTime;
     @NotNull
-    private Date endTime;
+    private LocalTime endTime;
     @NotNull
     private Long classId;
     @NotNull

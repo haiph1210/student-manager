@@ -183,7 +183,6 @@ export default function Class(props) {
         },
     ];
 
-
     return (
         <div>
             <div className={"d-flex justify-content-end"}>
@@ -208,7 +207,6 @@ export default function Class(props) {
                     type={modalType}
                     onClose={handleCloseModal}/>
             </Modal>
-
         </div>
     );
 };

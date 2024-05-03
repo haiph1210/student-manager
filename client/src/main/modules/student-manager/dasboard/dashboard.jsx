@@ -15,7 +15,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {Link} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import {setting} from "../../../utils/setting";
 import Header from "../headers/header";
 import Footer from "../footer/footer";
@@ -108,7 +108,7 @@ export default function Dashboard(props) {
 
     return (
         <>
-            <div className={"container"}>
+            <div className={""}>
                 <Box sx={{display: 'flex'}}>
                     <CssBaseline/>
                     <AppBar position="fixed" open={open}>
@@ -187,10 +187,10 @@ export default function Dashboard(props) {
 
                     </Drawer>
                     <Main open={open}>
-                        <div className={"mt-5"}>
-                            {props.children}
-                        </div>
-
+                        <Toolbar />
+                        <Box sx={{ flexGrow: 1, padding: theme.spacing(3) }}>
+                            <Outlet/>
+                        </Box>
                         <DrawerHeader/>
                         <Footer/>
                     </Main>

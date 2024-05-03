@@ -148,7 +148,7 @@ export default function Subject(props) {
                 </Button>
             </div>
             <DataGrid
-                className="table-container"
+                className="table-container mt-2"
                 rows={rows}
                 columns={columns}
                 pageSize={10}
