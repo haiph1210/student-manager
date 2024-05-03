@@ -1,0 +1,17 @@
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  transition: transform 2s ease-in-out; /* Thời gian chuyển đổi và hình thức */
+}
+
+.card:hover {
+  transform: scale(1.1); /* Scale lớn hơn khi rê chuột vào */
+}

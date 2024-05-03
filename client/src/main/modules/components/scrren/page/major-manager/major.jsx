@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {DataGrid} from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
-import {deleted, getAll} from "./major.service";
+import {deleted, getAllMajor} from "./major.service";
 import MajorModal from "./major.modal";
 
 export default function Major() {
@@ -58,7 +58,7 @@ export default function Major() {
 
     const getAllDataMajor = async () => {
         try {
-            const response = await getAll();
+            const response = await getAllMajor();
             if (response && response.data && response.data.length > 0) {
                 setRows(response.data);
             }

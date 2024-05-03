@@ -1,7 +1,7 @@
 import instance from "../../../../../utils/iterceptor";
 
 const REQUEST_MAPPING = '/majors';
-export const getAll = async () => {
+export const getAllMajor = async () => {
     return await instance.get(REQUEST_MAPPING);
 }
 

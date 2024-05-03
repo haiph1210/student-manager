@@ -6,7 +6,7 @@ import EditNoteSharpIcon from '@mui/icons-material/EditNoteSharp';
 import AddIcon from '@mui/icons-material/Add';
 import {add, detail, update} from "./major.service"; // Assuming you have a function named detail and update
 import Swal from "sweetalert2";
-import {getAll} from "../faculty-manager/faculty.service";
+import {getAllFaculty} from "../faculty-manager/faculty.service";
 
 const MajorModal = ({id, type, onClose}) => {
     const [facylties, setFacylties] = React.useState([]);
@@ -71,7 +71,7 @@ const MajorModal = ({id, type, onClose}) => {
     });
 
     const getAllFaculty = async () => {
-        const response = await getAll();
+        const response = await getAllFaculty();
         if (response && response.data && response.data.length > 0) {
             setFacylties(response.data);
         }
@@ -110,8 +110,8 @@ const MajorModal = ({id, type, onClose}) => {
 
     return (
         <Fade in={true}>
-            <div className="modal-content">
-                <h2 className={"text-center"}>{type === 'add' ? 'Thêm mới' : 'Chỉnh sửa'}</h2>
+            <div className="modal-content" style={{position: 'absolute', top: '150px', zIndex: 1000}}>
+                {/*<h2 className={"text-center"}>{type === 'add' ? 'Thêm mới' : 'Chỉnh sửa'}</h2>*/}
                 <Container maxWidth="sm">
                     <form onSubmit={formik.handleSubmit} className="form d-flex flex-column align-items-center">
                         <Typography variant="h4" gutterBottom>

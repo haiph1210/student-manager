@@ -1,7 +1,7 @@
 import instance from "../../../../../utils/iterceptor";
 
 const REQUEST_MAPPING = '/subjects';
-export const getAll = async () => {
+export const getAllSubject = async () => {
     return await instance.get(REQUEST_MAPPING);
 }
 

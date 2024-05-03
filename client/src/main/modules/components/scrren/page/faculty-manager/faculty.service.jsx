@@ -1,6 +1,6 @@
 import instance from "../../../../../utils/iterceptor";
 
-export const getAll = async () => {
+export const getAllFaculty = async () => {
     return await instance.get('/faculties');
 }
 

@@ -10,18 +10,13 @@ import Class from "../modules/components/scrren/page/class-manager/class";
 import Schedule from "../modules/components/scrren/page/schedule-manager/schedule";
 import Subject from "../modules/components/scrren/page/subject-manager/subject";
 import User from "../modules/components/scrren/page/user-manager/user";
+import Home from "../modules/components/scrren/page/home-manager/home";
 
 export const useAppRoutes = () => {
     return useRoutes([
         {
             path: "/", element: <Dashboard/>,
             children: [
-                // {
-                //     path: "/faculty", element: <Faculty/>
-                // },
-
-
-                // children Dashboard
                 {
                     path: "/faculty", element: <Faculty/>
                 },
@@ -40,28 +35,14 @@ export const useAppRoutes = () => {
                 {
                     path: "/user", element: <User/>
                 },
-                {path: "/", element: <Outlet/>},
-                // =================
+                {
+                    path: "/", element: <Home/>
+                },
+                {
+                    path: "/", element: <Outlet/>
+                },
             ]
         },
-        // children Dashboard
-        // {
-        //     path: "/faculty", element: <Faculty/>
-        // },
-        // {
-        //     path: "/major", element: <Major/>
-        // },
-        // {
-        //     path: "/class", element: <User/>
-        // },
-        // {
-        //     path: "/subject", element: <Subject/>
-        // },
-        // {
-        //     path: "/schedule", element: <Schedule/>
-        // },
-        // =================
-
         {
             path: "/login", element: <Login/>
         },

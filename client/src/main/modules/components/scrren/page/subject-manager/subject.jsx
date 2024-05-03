@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {deleted, getAll} from "../subject-manager/subject.service";
+import {deleted, getAllSubject} from "../subject-manager/subject.service";
 import Swal from "sweetalert2";
 import {Button} from "@mui/material";
 import {formatDate} from "../../../../../utils/date.utils";
@@ -60,7 +60,7 @@ export default function Subject(props) {
 
     const getAllData = async () => {
         try {
-            const response = await getAll();
+            const response = await getAllSubject();
             if (response && response.data && response.data.length > 0) {
                 setRows(response.data);
             }

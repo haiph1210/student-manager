@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {useEffect} from "react";
-import {deleted, getAll} from "./faculty.service";
+import {deleted, getAllFaculty} from "./faculty.service";
 import {formatDate} from "../../../../../utils/date.utils";
 import './faculty.scss';
 import {Button} from "@mui/material";
@@ -16,9 +16,13 @@ import Swal from "sweetalert2";
 export default function Faculty() {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpenMajor, setIsModalOpenMajor] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
 
+    const handleOpenModalMajor = () => {
+        setIsModalOpenMajor(true)
+    }
     const handleDelete = async (id) => {
         const deleteResp = await deleted(id);
         if (deleteResp) {
@@ -61,7 +65,7 @@ export default function Faculty() {
 
     const getAllData = async () => {
         try {
-            const response = await getAll();
+            const response = await getAllFaculty();
             if (response && response.data && response.data.length > 0) {
                 setRows(response.data);
             }
@@ -121,7 +125,7 @@ export default function Faculty() {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => alert("Hi")}
+                        onClick={() => handleOpenModalMajor()}
                     >
                         <DensitySmallSharpIcon/>
                         Ngành học
@@ -169,6 +173,14 @@ export default function Faculty() {
                 pageSize={10}
                 checkboxSelection
             />
+            <Modal show={isModalOpen}
+                   fullscreen={true}
+                   onHide={() => setIsModalOpen(false)}>
+                <FacultyModal
+                    id={selectedId}
+                    type={modalType}
+                    onClose={handleCloseModal}/>
+            </Modal>
             <Modal show={isModalOpen}
                    fullscreen={true}
                    onHide={() => setIsModalOpen(false)}>

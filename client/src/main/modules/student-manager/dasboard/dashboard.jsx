@@ -72,7 +72,7 @@ export default function Dashboard(props) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [selectedItem, setSelectedItem] = React.useState(null);
-    const [childMenu, setChildMenu] = React.useState(null);
+    // const [childMenu, setChildMenu] = React.useState(null);
     const [isAuth, setIsAuth] = React.useState(null);
 
     useEffect(() => {
@@ -81,14 +81,14 @@ export default function Dashboard(props) {
             setIsAuth(JSON.parse(loginResp));
         }
     }, []);
-    const handleItemClick = (item) => {
-        setSelectedItem(item);
-        if (item.children) {
-            setChildMenu(item.children);
-        } else {
-            setChildMenu(null);
-        }
-    };
+    // const handleItemClick = (item) => {
+    //     setSelectedItem(item);
+    //     if (item.children) {
+    //         setChildMenu(item.children);
+    //     } else {
+    //         setChildMenu(null);
+    //     }
+    // };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -153,7 +153,7 @@ export default function Dashboard(props) {
                                                 component={Link}
                                                 to={item.path}
                                                 selected={selectedItem === item}
-                                                onClick={() => handleItemClick(item)}
+                                                // onClick={() => handleItemClick(item)}
                                             >
                                                 <ListItemIcon>
                                                     {item.icon}
@@ -169,7 +169,7 @@ export default function Dashboard(props) {
                                                             component={Link}
                                                             to={child.path}
                                                             selected={selectedItem === child}
-                                                            onClick={() => handleItemClick(child)}
+                                                            // onClick={() => handleItemClick(child)}
                                                         >
                                                             <ListItemIcon>
                                                                 {child.icon}

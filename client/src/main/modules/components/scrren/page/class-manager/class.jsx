@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {deleted, getAll} from "../class-manager/class.service";
+import {deleted, getAllClass} from "../class-manager/class.service";
 import Swal from "sweetalert2";
 import {Button} from "@mui/material";
 import {formatDate} from "../../../../../utils/date.utils";
@@ -60,7 +60,7 @@ export default function Class(props) {
 
     const getAllData = async () => {
         try {
-            const response = await getAll();
+            const response = await getAllClass();
             if (response && response.data && response.data.length > 0) {
                 const formattedData = response.data.map(item => ({
                     ...item,

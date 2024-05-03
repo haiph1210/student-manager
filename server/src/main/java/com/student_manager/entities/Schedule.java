@@ -32,8 +32,8 @@ public class Schedule extends BaseEntities {
     @JsonIgnoreProperties("schedules")
     private Class aClass;
 
-    @OneToOne
-    @JoinColumn(name = "subject_id", unique = true, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", nullable = false)
     @JsonIgnoreProperties("schedules")
     private Subject subject;
 
