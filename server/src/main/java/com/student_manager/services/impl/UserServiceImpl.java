@@ -113,12 +113,12 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
             }
         }
 
-        Student student = Student
-                .builder()
-                .user(user)
-                .yearOfAdmission(request.getYearOfAdmission())
-                .build();
-        user.setStudent(student);
+//        Student student = Student
+//                .builder()
+//                .user(user)
+//                .yearOfAdmission(request.getYearOfAdmission())
+//                .build();
+//        user.setStudent(student);
         return user;
     }
 }

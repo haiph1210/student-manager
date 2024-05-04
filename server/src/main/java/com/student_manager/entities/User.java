@@ -1,5 +1,6 @@
 package com.student_manager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.student_manager.enums.Gender;
 import com.student_manager.core.BaseEntities;
 import com.student_manager.enums.Role;
@@ -23,8 +24,8 @@ import javax.persistence.*;
                 @UniqueConstraint(name = "UNQ_USERNAME_EMAIL_PHONE", columnNames = {"username", "email", "phoneNumber"}),
         },
         indexes = {
-                @Index(name = "IDX_CODE",columnList = "userCode"),
-                @Index(name = "IDX_USERNAME",columnList = "username"),
+                @Index(name = "IDX_CODE", columnList = "userCode"),
+                @Index(name = "IDX_USERNAME", columnList = "username"),
                 @Index(name = "IDX_USERNAME_EMAIL_PHONE", columnList = "username, email, phoneNumber"),
 
         })
@@ -50,8 +51,13 @@ public class User extends BaseEntities {
     private Role role = Role.USER;
 
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Student student;
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Student student;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    @JsonIgnoreProperties("users")
+    private Class aClass;
 
     @PrePersist
     public void prePersist() {

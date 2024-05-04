@@ -124,7 +124,7 @@ const ScheduleModal = ({id, type, onClose}) => {
         }
     };
 
-    const getAllSubject = async () => {
+    const getAllSubjects = async () => {
         const response = await getAllSubject();
         if (response && response.data && response.data.length > 0) {
             setSubjects(response.data);
@@ -140,7 +140,7 @@ const ScheduleModal = ({id, type, onClose}) => {
 
     useEffect(() => {
         getDetail();
-        getAllSubject();
+        getAllSubjects();
         getAllClasss();
     }, []);
 

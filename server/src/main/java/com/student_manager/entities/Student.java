@@ -32,13 +32,13 @@ public class Student extends BaseEntities {
 
     private Date graduationYear;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties("student")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id", nullable = false)
+//    @JsonIgnoreProperties("student")
+//    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    @JsonIgnoreProperties("students")
-    private Class aClass;
+//    @ManyToOne
+//    @JoinColumn(name = "class_id")
+//    @JsonIgnoreProperties("students")
+//    private Class aClass;
 }

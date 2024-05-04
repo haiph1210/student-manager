@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl implements com.student_manager.services.A
                         request.getPassword()
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = generateToken.generateJwtToken(authentication);
         Date expiredTime = generateToken.generateExpiration();

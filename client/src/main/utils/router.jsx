@@ -11,6 +11,7 @@ import Schedule from "../modules/components/scrren/page/schedule-manager/schedul
 import Subject from "../modules/components/scrren/page/subject-manager/subject";
 import User from "../modules/components/scrren/page/user-manager/user";
 import Home from "../modules/components/scrren/page/home-manager/home";
+import Logout from "../modules/components/scrren/authentication/logout/logout";
 
 export const useAppRoutes = () => {
     return useRoutes([
@@ -48,6 +49,9 @@ export const useAppRoutes = () => {
         },
         {
             path: "/register", element: <Register/>
+        },
+        {
+            path: "/logout", element: <Logout/>
         },
         {
             path: "/404-not-found", element: <NotFound/>

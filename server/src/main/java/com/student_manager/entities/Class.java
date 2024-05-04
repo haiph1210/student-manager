@@ -25,7 +25,7 @@ public class Class extends BaseEntities {
     private Major major;
 
     @OneToMany(mappedBy = "aClass", cascade = CascadeType.ALL)
-    private List<Student> students;
+    private List<User> users;
 
     @OneToMany(mappedBy = "aClass", cascade = CascadeType.ALL)
     private List<Schedule> schedules;

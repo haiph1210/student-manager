@@ -1,9 +1,8 @@
 package com.student_manager.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.springframework.http.converter.json.GsonBuilderUtils;
-
+import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 public class JsonUtils<T> {

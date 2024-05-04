@@ -70,7 +70,7 @@ const MajorModal = ({id, type, onClose}) => {
         }
     });
 
-    const getAllFaculty = async () => {
+    const getAllFaculties = async () => {
         const response = await getAllFaculty();
         if (response && response.data && response.data.length > 0) {
             setFacylties(response.data);
@@ -82,7 +82,7 @@ const MajorModal = ({id, type, onClose}) => {
                 const response = await detail(id);
                 if (response) {
                     // Lấy dữ liệu từ response
-                    const { majorName, faculty } = response.data;
+                    const {majorName, faculty} = response.data;
 
                     formik.setValues({
                         majorName: majorName || '',
@@ -105,7 +105,7 @@ const MajorModal = ({id, type, onClose}) => {
 
     useEffect(() => {
         getDetailMajor();
-        getAllFaculty();
+        getAllFaculties();
     }, []);
 
     return (
@@ -148,6 +148,7 @@ const MajorModal = ({id, type, onClose}) => {
                                 ))}
                             </Select>
                         </FormControl>
+                        <br/>
 
                         <Button type="submit" variant="contained" color={type === 'add' ? "success" : "warning"}
                                 size="large" fullWidth>
