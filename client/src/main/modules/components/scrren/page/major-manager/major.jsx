@@ -104,13 +104,13 @@ export default function Major() {
             ),
         },
         {
-            field: 'createdAt',
+            field: 'createdBy',
             headerName: 'Người tạo',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"
         },
         {
-            field: 'updateAt',
+            field: 'updatedBy',
             headerName: 'Người thay đổi',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"

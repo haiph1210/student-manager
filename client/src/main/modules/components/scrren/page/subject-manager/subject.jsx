@@ -87,13 +87,13 @@ export default function Subject(props) {
             field: 'credits', headerName: 'Số tín chỉ', width: 200,
         },
         {
-            field: 'createdAt',
+            field: 'createdBy',
             headerName: 'Người tạo',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"
         },
         {
-            field: 'updateAt',
+            field: 'updatedBy',
             headerName: 'Người thay đổi',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"

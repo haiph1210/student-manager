@@ -11,7 +11,8 @@ const setupInterceptors = () => {
         if (authentication && request.method !== "GET") {
             const authenticationResp = JSON.parse(authentication);
             const token = authenticationResp.token;
-            request.headers['Authorization'] = 'Bearer' + token;
+            console.log(token);
+            request.headers['Authorization'] = 'Bearer ' + token;
             request.headers['Cros-Orrigin'] = instance.headers;
         }
         return request;

@@ -93,13 +93,13 @@ export default function Faculty() {
         {field: 'facultyName', headerName: 'Tên khoa', width: 200},
         {field: 'totalYearLearn', headerName: 'Tổng số năm', width: 130},
         {
-            field: 'createdAt',
+            field: 'createdBy',
             headerName: 'Người tạo',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"
         },
         {
-            field: 'updateAt',
+            field: 'updatedBy',
             headerName: 'Người thay đổi',
             width: 130,
             valueFormatter: (params) => params ?? "ADMIN"
