@@ -42,4 +42,16 @@ public class UserController {
         BaseResponse<?> baseResponse = new BaseResponse<>(subjectService.update(id, request).getId());
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/addOrUpdateUserToClass/{classId}")
+    public ResponseEntity<?> addOrUpdateUserToClass(@PathVariable Long classId) throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(subjectService.addOrUpdateUserToClass(classId).getId());
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/removeUserToClass")
+    public ResponseEntity<?> removeUserToClass() throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(subjectService.removeUserToClass().getId());
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+    }
 }

@@ -64,20 +64,17 @@ public class MajorServiceImpl extends BaseService implements com.student_manager
     private Major handleMajor(Major oldMajor, MajorRequest request) throws ApiException {
         Major major;
         if (oldMajor == null) {
-            major = new Major(); // Tạo một đối tượng mới nếu không có major cũ
+            major = new Major();
         } else {
-            major = oldMajor; // Sử dụng major cũ nếu có
+            major = oldMajor;
         }
 
-        // Sao chép dữ liệu từ MajorRequest vào Major
         major.setMajorName(request.getMajorName());
-
-        // Lấy và gán faculty từ facultyId
         if (!DataUtils.isNull(request.getFacultyId())) {
             Faculty faculty = facultyHandle.findById(request.getFacultyId());
             major.setFaculty(faculty);
         } else {
-            major.setFaculty(null); // Đặt faculty là null nếu facultyId là null
+            major.setFaculty(null);
         }
 
         return major;

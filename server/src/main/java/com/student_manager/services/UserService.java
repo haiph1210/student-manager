@@ -1,9 +1,11 @@
 package com.student_manager.services;
 
 import com.student_manager.core.ApiException;
+import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.entities.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserService {
@@ -22,4 +24,10 @@ public interface UserService {
     User createAdmin(UserRequest request) throws ApiException;
 
     User update(Long id, UserRequest request) throws ApiException;
+
+    @Transactional(rollbackOn = ERROR.class)
+    User addOrUpdateUserToClass(Long classId) throws ApiException;
+
+    @Transactional(rollbackOn = ERROR.class)
+    User removeUserToClass() throws ApiException;
 }

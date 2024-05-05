@@ -26,11 +26,11 @@ public abstract class BaseEntities implements Serializable {
     @CreationTimestamp
     private Date createdDate;
     @CreatedBy
-    private Long createdBy;
+    private String createdBy;
     @Column(name = "UPDATED_DATE")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @UpdateTimestamp
     private Date updatedDate;
     @LastModifiedBy
-    private Long updatedBy;
+    private String updatedBy;
 }

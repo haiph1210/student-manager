@@ -4,29 +4,33 @@ import com.student_manager.core.ApiException;
 import com.student_manager.core.BaseService;
 import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.UserRequest;
-import com.student_manager.entities.Student;
+import com.student_manager.entities.Class;
 import com.student_manager.entities.User;
 import com.student_manager.enums.Role;
 import com.student_manager.mapper.impl.UserMapper;
 import com.student_manager.repositories.UserRepository;
+import com.student_manager.services.ClassService;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 @Log4j2
 public class UserServiceImpl extends BaseService implements com.student_manager.services.UserService {
     private final UserRepository userRepository;
+    private final ClassService classService;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
+    public UserServiceImpl(UserRepository userRepository, ClassService classService, PasswordEncoder passwordEncoder,
                            UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.classService = classService;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
     }
@@ -120,5 +124,22 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
 //                .build();
 //        user.setStudent(student);
         return user;
+    }
+
+    @Override
+    @Transactional(rollbackOn = ERROR.class)
+    public User addOrUpdateUserToClass(Long classId) throws ApiException {
+        Class aClass = classService.findById(classId);
+        User user = this.getUser();
+        user.setAClass(aClass);
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional(rollbackOn = ERROR.class)
+    public User removeUserToClass() throws ApiException {
+        User user = this.getUser();
+        user.setAClass(null);
+        return userRepository.save(user);
     }
 }

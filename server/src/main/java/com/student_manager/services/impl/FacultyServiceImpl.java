@@ -61,32 +61,15 @@ public class FacultyServiceImpl extends BaseService implements com.student_manag
     }
 
     private Faculty handleFaculty(Faculty oldFaculty, FacultyRequest request) {
-
-        List<Major> majors = new ArrayList<>();
-//        if (!DataUtils.isNull(request.getMajorDto())) {
-//            List<Long> majorIds = request.getMajorDto().getMajorIds();
-//            if (!DataUtils.isNull(majorIds) && !majorIds.isEmpty()) {
-//                majors.addAll(majorHandle.findAllMajorByIds(majorIds));
-//                if (majors.size() == majorIds.size()) {
-//                    log.info("All majors found.");
-//                } else {
-//                    log.error("Some majors are missing.");
-//                }
-//            } else {
-//                if (!DataUtils.isNull(request.getMajorDto().getMajors())) {
-//                    List<MajorRequest> majorRequests = request.getMajorDto().getMajors();
-//                    majors.addAll(majorRequests.stream()
-//                            .map(item -> modelMapper.map(item, Major.class))
-//                            .collect(Collectors.toList()));
-//                }
-//            }
-//        }
-//        log.info("major: {}", majors.toString());
-        Faculty faculty = modelMapper.map(request, Faculty.class);
-        faculty.setMajors(majors);
+        Faculty faculty = null;
         if (!DataUtils.isNull(oldFaculty)) {
-            faculty.setId(oldFaculty.getId());
+            faculty = oldFaculty;
+        } else {
+            faculty = new Faculty();
         }
+
+        faculty.setFacultyName(request.getFacultyName());
+        faculty.setTotalYearLearn(request.getTotalYearLearn());
         log.info("faculty: {}", faculty.toString());
         return faculty;
     }
