@@ -274,7 +274,7 @@ export default function Register(key, value) {
                     </div>
 
                     <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
-                        Đăng nhập
+                        Đăng ký
                     </Button>
                 </form>
             </Container>

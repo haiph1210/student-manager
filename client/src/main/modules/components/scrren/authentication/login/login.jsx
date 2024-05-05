@@ -28,17 +28,27 @@ export default function Login(key, value) {
 
             const loginResponse = await login({request: values});
             if (loginResponse) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công!',
-                    text: 'Đăng nhập thành công!,',
-                    showConfirmButton: true,
-                    timer: 1500
-                });
-                localStorage.setItem("auth", JSON.stringify(loginResponse.data));
-                window.location.href = "/";
+                console.log(loginResponse)
+                if (loginResponse.code == '1') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Đăng nhập thành công!,',
+                        showConfirmButton: true,
+                        timer: 1500
+                    });
+                    localStorage.setItem("auth", JSON.stringify(loginResponse.data));
+                    window.location.href = "/";
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Thất bại!',
+                        text: loginResponse.message,
+                        showConfirmButton: true,
+                        timer: 1500
+                    });
+                }
             }
-
         }
     });
 
