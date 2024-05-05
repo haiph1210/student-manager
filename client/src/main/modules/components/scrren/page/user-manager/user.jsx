@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {getAll, deleted} from "./user.service";
+import {deleted, getAll} from "./user.service";
 import Swal from "sweetalert2";
 import {Button} from "@mui/material";
 import {formatDate} from "../../../../../utils/date.utils";
@@ -21,6 +21,12 @@ export default function Class(props) {
     const [isModalOpenAddClass, setIsModalOpenAddClass] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [selectedIds, setSelectedIds] = React.useState([]);
+
+    const handleSelectionModelChange = (selectionModel) => {
+        console.log(selectionModel)
+        setSelectedIds(selectionModel);
+    };
 
     function handleAddNew() {
         setIsModalOpen(true);
@@ -28,6 +34,7 @@ export default function Class(props) {
     }
 
     function handleResetPassword() {
+        console.log(selectedId);
     }
 
     function handleAddToClass() {
@@ -42,6 +49,8 @@ export default function Class(props) {
     }
 
     function handleUpdateToClass() {
+    }
+    function handleRemoveFromClass() {
     }
 
     function handleEditClick(id) {
@@ -196,25 +205,25 @@ export default function Class(props) {
             <div className={"d-flex justify-content-start"}>
                 <Button className={"m-lg-1"} variant="contained" color="inherit"
                         size="small"
-                        onClick={() => handleAddNew()}>
+                        onClick={() => handleResetPassword()}>
                     <RotateLeftIcon/>Reset Password
                 </Button>
 
                 <Button className={"m-lg-1"} variant="contained" color="info"
                         size="small"
-                        onClick={() => handleAddNew()}>
+                        onClick={() => handleAddToClass()}>
                     <PlaylistAddCircleIcon/>Thêm vào lớp
                 </Button>
 
                 <Button className={"m-lg-1"} variant="contained" color="secondary"
                         size="small"
-                        onClick={() => handleAddNew()}>
+                        onClick={() => handleUpdateToClass()}>
                     <EditNoteIcon/> Cập nhật lớp
                 </Button>
 
                 <Button className={"m-lg-1"} variant="contained" color="error"
                         size="small"
-                        onClick={() => handleAddNew()}>
+                        onClick={() => handleRemoveFromClass()}>
                     <DeleteForeverIcon/> Xóa khỏi lớp
                 </Button>
 
@@ -231,6 +240,8 @@ export default function Class(props) {
                 columns={columns}
                 pageSize={10}
                 checkboxSelection
+                onSelectionModelChange={handleSelectionModelChange}
+                selectionModel={selectedIds}
             />
             <Modal show={isModalOpen}
                    fullscreen={true}
