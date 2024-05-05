@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {deleted, getAll} from "./user.service";
+import {getAll, deleted} from "./user.service";
 import Swal from "sweetalert2";
 import {Button} from "@mui/material";
 import {formatDate} from "../../../../../utils/date.utils";
@@ -8,12 +8,11 @@ import DeleteSweepSharpIcon from "@mui/icons-material/DeleteSweepSharp";
 import AddIcon from "@mui/icons-material/Add";
 import {DataGrid} from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UserModal from "./user.modal";
 
 
-export default function User(props) {
+export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
@@ -30,27 +29,27 @@ export default function User(props) {
         setModalType('edit');
     }
 
-    // const handleDelete = async (id) => {
-    //     const deleteResp = await deleted(id);
-    //     if (deleteResp) {
-    //         Swal.fire({
-    //             icon: 'success',
-    //             title: 'Thành công!',
-    //             text: 'Xóa thành công!',
-    //             showConfirmButton: true,
-    //             timer: 1500
-    //         });
-    //         getAllData();
-    //     } else {
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Thất bại!',
-    //             text: 'Xóa thất bại!',
-    //             showConfirmButton: true,
-    //             timer: 1500
-    //         });
-    //     }
-    // }
+    const handleDelete = async (id) => {
+        const deleteResp = await deleted(id);
+        if (deleteResp) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Xóa thành công!',
+                showConfirmButton: true,
+                timer: 1500
+            });
+            getAllData();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: 'Xóa thất bại!',
+                showConfirmButton: true,
+                timer: 1500
+            });
+        }
+    }
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -64,8 +63,7 @@ export default function User(props) {
             if (response && response.data && response.data.length > 0) {
                 const formattedData = response.data.map(item => ({
                     ...item,
-                    majorName: item.major.majorName,
-                    facultyName: item.major.faculty.facultyName,
+                    fullName: `${item.firstName} ${item.lastName}`
                 }));
                 setRows(formattedData);
             }
@@ -86,38 +84,27 @@ export default function User(props) {
 
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
-
-        {field: 'name', headerName: 'Tên lớp', width: 200},
+        {field: 'fullName', headerName: 'Họ và tên', width: 200},
+        {field: 'email', headerName: 'Email', width: 200},
+        {field: 'phoneNumber', headerName: 'Số điện thoại', width: 150},
+        {field: 'address', headerName: 'Địa chỉ', width: 300},
+        {field: 'nation', headerName: 'Quốc gia', width: 150},
+        {field: 'dateOfBirth', headerName: 'Ngày sinh', width: 150},
+        {field: 'citizenId', headerName: 'Số CMND', width: 200},
+        {field: 'religion', headerName: 'Tôn giáo', width: 150},
+        {field: 'nationality', headerName: 'Quốc tịch', width: 150},
+        {field: 'gender', headerName: 'Giới tính', width: 150},
         {
-            field: 'majorName', headerName: 'Tên chuyên ngành', width: 200,
-        },
-        {
-            field: 'facultyName', headerName: 'Tên khoa', width: 200,
-        },
-        {
-            field: 'students',
-            headerName: 'Số sinh viên',
-            width: 180,
-            valueFormatter: (params) => params.length,
-            renderCell: (params) => (
-                <div>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => alert("Hi")}
-                    >
-                        <AccountCircleIcon/>
-                        Sinh viên
-                    </Button>
-                </div>
-            ),
+            field: 'aClass', headerName: 'Sinh viên lớp', width: 150,
+            valueFormatter: (params) => {
+                return params && params.name;
+            }
         },
         {
             field: 'schedules',
             headerName: 'Lịch học',
             width: 180,
-            valueFormatter: (params) => params.length,
+            // valueFormatter: (params) => params.length,
             renderCell: (params) => (
                 <div>
                     <Button
@@ -172,17 +159,16 @@ export default function User(props) {
                         <EditNoteSharpIcon/>
                         Cập nhật
                     </Button>
-                    {/*<Button variant="outlined" color="error"*/}
-                    {/*        size="small"*/}
-                    {/*        onClick={async () => handleDelete(params.row.id)}>*/}
-                    {/*    <DeleteSweepSharpIcon/>*/}
-                    {/*    Xóa*/}
-                    {/*</Button>*/}
+                    <Button variant="outlined" color="error"
+                            size="small"
+                            onClick={async () => handleDelete(params.row.id)}>
+                        <DeleteSweepSharpIcon/>
+                        Xóa
+                    </Button>
                 </div>
             ),
         },
     ];
-
 
     return (
         <div>
@@ -194,7 +180,7 @@ export default function User(props) {
                 </Button>
             </div>
             <DataGrid
-                className="table-container  mt-2"
+                className="table-container"
                 rows={rows}
                 columns={columns}
                 pageSize={10}
@@ -208,7 +194,6 @@ export default function User(props) {
                     type={modalType}
                     onClose={handleCloseModal}/>
             </Modal>
-
         </div>
     );
 };

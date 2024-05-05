@@ -127,7 +127,7 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     @Override
-    @Transactional(rollbackOn = ERROR.class)
+    @Transactional(rollbackOn = Exception.class)
     public User addOrUpdateUserToClass(Long classId) throws ApiException {
         Class aClass = classService.findById(classId);
         User user = this.getUser();
@@ -136,7 +136,7 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     @Override
-    @Transactional(rollbackOn = ERROR.class)
+    @Transactional(rollbackOn = Exception.class)
     public User removeUserToClass() throws ApiException {
         User user = this.getUser();
         user.setAClass(null);

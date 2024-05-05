@@ -35,10 +35,10 @@ public abstract class BaseService {
             if (optionalUser.isPresent()) {
                 user = optionalUser.get();
             } else {
-                throw new ApiException(ERROR.BAD_REQUEST);
+                throw new ApiException(ERROR.BAD_REQUEST,"User không tồn tại");
             }
         } else {
-            throw new ApiException(ERROR.BAD_REQUEST);
+            throw new ApiException(ERROR.BAD_REQUEST,"Xác thực không thành công");
         }
         return user;
     }
