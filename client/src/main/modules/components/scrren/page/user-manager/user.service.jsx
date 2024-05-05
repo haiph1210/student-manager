@@ -1,6 +1,6 @@
 import instance from "../../../../../utils/iterceptor";
 
-const REQUEST_MAPPING = '/users/';
+const REQUEST_MAPPING = '/users';
 export const getAll = async () => {
     return await instance.get(REQUEST_MAPPING);
 }

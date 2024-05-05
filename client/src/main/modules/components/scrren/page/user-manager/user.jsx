@@ -10,17 +10,38 @@ import {DataGrid} from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UserModal from "./user.modal";
-
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpenAddClass, setIsModalOpenAddClass] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
 
     function handleAddNew() {
         setIsModalOpen(true);
         setModalType('add');
+    }
+
+    function handleResetPassword() {
+    }
+
+    function handleAddToClass() {
+        setIsModalOpenAddClass(true);
+        setModalType('add');
+    }
+
+
+    function handleUpdateToClass() {
+        setIsModalOpenAddClass(true);
+        setModalType('edit');
+    }
+
+    function handleUpdateToClass() {
     }
 
     function handleEditClick(id) {
@@ -172,15 +193,40 @@ export default function Class(props) {
 
     return (
         <div>
-            <div className={"d-flex justify-content-end"}>
+            <div className={"d-flex justify-content-start"}>
+                <Button className={"m-lg-1"} variant="contained" color="inherit"
+                        size="small"
+                        onClick={() => handleAddNew()}>
+                    <RotateLeftIcon/>Reset Password
+                </Button>
+
+                <Button className={"m-lg-1"} variant="contained" color="info"
+                        size="small"
+                        onClick={() => handleAddNew()}>
+                    <PlaylistAddCircleIcon/>Thêm vào lớp
+                </Button>
+
+                <Button className={"m-lg-1"} variant="contained" color="secondary"
+                        size="small"
+                        onClick={() => handleAddNew()}>
+                    <EditNoteIcon/> Cập nhật lớp
+                </Button>
+
+                <Button className={"m-lg-1"} variant="contained" color="error"
+                        size="small"
+                        onClick={() => handleAddNew()}>
+                    <DeleteForeverIcon/> Xóa khỏi lớp
+                </Button>
+
                 <Button className={"m-lg-1"} variant="contained" color="success"
                         size="small"
                         onClick={() => handleAddNew()}>
                     <AddIcon/>Thêm mới
                 </Button>
+
             </div>
             <DataGrid
-                className="table-container"
+                className="table-container mt-3"
                 rows={rows}
                 columns={columns}
                 pageSize={10}

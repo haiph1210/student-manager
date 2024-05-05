@@ -88,7 +88,7 @@ export default function Major() {
             field: 'classes',
             headerName: 'Số lớp',
             width: 180,
-            valueFormatter: (params) => params.length,
+            // valueFormatter: (params) => params.length,
             renderCell: (params) => (
                 <div>
                     <Button

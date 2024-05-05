@@ -122,7 +122,7 @@ export default function Faculty() {
             field: 'majors',
             headerName: 'Số ngành',
             width: 180,
-            valueFormatter: (params) => params.length,
+            // valueFormatter: (params) => params.length,
             renderCell: (params) => (
                 <div>
                     <Button

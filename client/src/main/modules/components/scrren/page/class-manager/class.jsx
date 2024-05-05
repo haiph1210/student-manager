@@ -98,7 +98,7 @@ export default function Class(props) {
             field: 'students',
             headerName: 'Số sinh viên',
             width: 180,
-            valueFormatter: (params) => params.length,
+            // valueFormatter: (params) => params.length,
             renderCell: (params) => (
                 <div>
                     <Button
@@ -117,7 +117,7 @@ export default function Class(props) {
             field: 'schedules',
             headerName: 'Lịch học',
             width: 180,
-            valueFormatter: (params) => params.length,
+            // valueFormatter: (params) => params.length,
             renderCell: (params) => (
                 <div>
                     <Button

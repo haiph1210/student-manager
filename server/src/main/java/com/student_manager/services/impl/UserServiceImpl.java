@@ -101,6 +101,7 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
             user.setId(oldUser.getId());
             user.setUserCode(oldUser.getUserCode());
             user.setUsername(oldUser.getUsername());
+            user.setPassword(oldUser.getPassword());
         } else {
             boolean isExistByUsername = userRepository.existsByUsername(request.getUsername());
             boolean isExistsByUsernameAndEmailAndPhoneNumber = userRepository.existsByUsernameAndEmailAndPhoneNumber(request.getUsername(), request.getEmail(), request.getPhoneNumber());
