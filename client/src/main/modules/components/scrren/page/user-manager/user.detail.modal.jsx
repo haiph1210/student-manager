@@ -11,12 +11,14 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Modal from "react-bootstrap/Modal";
 import AddOrUpdateToClassModal from "./add.or.update.to.class.modal";
+import {getRole} from "../../../../../utils/authentication";
 
 export default function UserDetailModal({id, onClose}) {
     const [isModalOpenAddClass, setIsModalOpenAddClass] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [className, setClassName] = React.useState(null);
+    const [role, setRole] = React.useState(null);
 
     const formik = useFormik({
         initialValues: {
@@ -36,6 +38,7 @@ export default function UserDetailModal({id, onClose}) {
 
     useEffect(() => {
         getDetail();
+        setRole(getRole());
     }, []);
 
     const getDetail = async () => {
@@ -226,29 +229,42 @@ export default function UserDetailModal({id, onClose}) {
                     >
                         <RotateLeftIcon/>Reset Password
                     </Button>
-                    {!className
-                        ? <Button className={"m-lg-1"} variant="contained" color="info"
-                                  size="small"
-                                  onClick={() => handleAddOrUpdateToClass()}
-                        >
-                            <PlaylistAddCircleIcon/>Thêm vào lớp
-                        </Button>
-                        :
-                        <Button className={"m-lg-1"} variant="contained" color="secondary"
-                                size="small"
-                                onClick={() => handleAddOrUpdateToClass()}
-                        >
-                            <EditNoteIcon/> Cập nhật lớp
-                        </Button>
-                    }
-
-
-                    <Button className={"m-lg-1"} variant="contained" color="error"
-                            size="small"
-                            onClick={() => handleRemoveFromClass()}
-                    >
-                        <DeleteForeverIcon/> Xóa khỏi lớp
-                    </Button>
+                    {role && role === 'ADMIN' && (
+                        <>
+                            {!className ? (
+                                <Button
+                                    className={"m-lg-1"}
+                                    variant="contained"
+                                    color="info"
+                                    size="small"
+                                    onClick={() => handleAddOrUpdateToClass()}
+                                >
+                                    <PlaylistAddCircleIcon/>Thêm vào lớp
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button
+                                        className={"m-lg-1"}
+                                        variant="contained"
+                                        color="secondary"
+                                        size="small"
+                                        onClick={() => handleAddOrUpdateToClass()}
+                                    >
+                                        <EditNoteIcon/> Cập nhật lớp
+                                    </Button>
+                                    <Button
+                                        className={"m-lg-1"}
+                                        variant="contained"
+                                        color="error"
+                                        size="small"
+                                        onClick={() => handleRemoveFromClass()}
+                                    >
+                                        <DeleteForeverIcon/> Xóa khỏi lớp
+                                    </Button>
+                                </>
+                            )}
+                        </>
+                    )}
                 </Grid>
 
                 <Modal show={isModalOpenAddClass}
@@ -262,5 +278,6 @@ export default function UserDetailModal({id, onClose}) {
 
             </div>
         </>
-    );
+    )
+        ;
 }

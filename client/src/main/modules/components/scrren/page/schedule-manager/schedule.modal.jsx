@@ -11,7 +11,7 @@ import {getAllClass} from "../class-manager/class.service";
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {TimePicker} from '@mui/x-date-pickers/TimePicker';
-import {format, parse} from "date-fns";
+import {parse, parseISO} from "date-fns";
 import dayjs from "dayjs";
 
 const ScheduleModal = ({id, type, onClose}) => {
@@ -55,7 +55,6 @@ const ScheduleModal = ({id, type, onClose}) => {
                 classId: values.classId,
                 subjectId: values.subjectId,
             };
-            console.log(newValues)
             try {
                 if (type === 'add') {
                     const addResponse = await add({request: newValues});
@@ -108,8 +107,19 @@ const ScheduleModal = ({id, type, onClose}) => {
         if (id && type === 'edit') {
             try {
                 const response = await detail(id);
-                if (response) {
-                    formik.setValues(response.data);
+                if (response && response.data) {
+                    const { startTime, endTime, classId, subjectId } = response.data;
+                    console.log("parse", parse(startTime, 'HH:mm:ss', new Date()))
+                    const startTimeDate = parse(startTime, 'HH:mm:ss', new Date());
+                    const endTimeDate = parse(endTime, 'HH:mm:ss', new Date());
+
+                    // Cập nhật giá trị cho formik
+                    formik.setValues({
+                        startTime: startTimeDate,
+                        endTime: endTimeDate,
+                        classId,
+                        subjectId,
+                    });
                 } else {
                     Swal.fire({
                         icon: 'warning',
@@ -124,6 +134,7 @@ const ScheduleModal = ({id, type, onClose}) => {
             }
         }
     };
+
 
     const getAllSubjects = async () => {
         const response = await getAllSubject();

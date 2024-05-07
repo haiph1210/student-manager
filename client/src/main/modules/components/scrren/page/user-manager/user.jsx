@@ -11,6 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UserModal from "./user.modal";
 import UserDetailModal from "./user.detail.modal";
+import {getRole} from "../../../../../utils/authentication";
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
@@ -20,6 +21,7 @@ export default function Class(props) {
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedIds, setSelectedIds] = React.useState([]);
+    const [role, setRole] = React.useState(null);
 
     const handleSelectionModelChange = (selectionModel) => {
         console.log(selectionModel)
@@ -119,8 +121,10 @@ export default function Class(props) {
 
     useEffect(() => {
         getAllData();
+        setRole(getRole());
     }, []);
 
+    let isAdmin = role === 'ADMIN';
     const columns = [
         {
             field: 'id', headerName: 'ID', width: 90,
@@ -193,7 +197,7 @@ export default function Class(props) {
             valueFormatter: (params) => formatDate(params),
         },
 
-        {
+        isAdmin && {
             field: 'actions',
             headerName: 'Hành động',
             sortable: false,
@@ -214,21 +218,20 @@ export default function Class(props) {
                     </Button>
                 </div>
             ),
-        },
+        }
     ];
 
     return (
         <div>
-            <div className={"d-flex justify-content-start"}>
-
-
-                <Button className={"m-lg-1"} variant="contained" color="success"
-                        size="small"
-                        onClick={() => handleAddNew()}>
-                    <AddIcon/>Thêm mới
-                </Button>
-
-            </div>
+            {role && role === 'ADMIN' && (
+                <div className={"d-flex justify-content-start"}>
+                    <Button className={"m-lg-1"} variant="contained" color="success"
+                            size="small"
+                            onClick={() => handleAddNew()}>
+                        <AddIcon/>Thêm mới
+                    </Button>
+                </div>
+            )}
             <DataGrid
                 className="table-container mt-3"
                 rows={rows}

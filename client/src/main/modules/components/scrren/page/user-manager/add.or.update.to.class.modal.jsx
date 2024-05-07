@@ -6,10 +6,12 @@ import {addOrUpdateUserToClass, removeUserToClass} from "../user-manager/user.se
 import AddIcon from "@mui/icons-material/Add";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import Swal from "sweetalert2";
+import {getRole} from "../../../../../utils/authentication";
 
 export default function AddOrUpdateToClassModal({selectedId, className, onClose}) { // Thêm dấu ngoặc nhọn để lấy tham số type và onClose
     console.log(className)
     const [classs, setClass] = useState([]);
+    const [role, setRole] = React.useState(null);
 
     const formik = useFormik({
         initialValues: {
@@ -37,7 +39,7 @@ export default function AddOrUpdateToClassModal({selectedId, className, onClose}
                         });
                     }
                 } else {
-                    const updateResponse = await addOrUpdateUserToClass(selectedId,values.classId);
+                    const updateResponse = await addOrUpdateUserToClass(selectedId, values.classId);
                     if (updateResponse) {
                         Swal.fire({
                             icon: 'success',
@@ -73,6 +75,7 @@ export default function AddOrUpdateToClassModal({selectedId, className, onClose}
 
     useEffect(() => {
         getAllClasss();
+        setRole(getRole());
     }, []);
 
     return (

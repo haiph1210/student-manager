@@ -13,6 +13,7 @@ import FacultyModal from "./faculty.modal";
 import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
 import NameCard from "../../../../student-manager/share/box";
+import {getRole} from "../../../../../utils/authentication";
 
 export default function Faculty() {
     const [rows, setRows] = React.useState([]);
@@ -21,6 +22,7 @@ export default function Faculty() {
     const [major, setMajor] = React.useState([]);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [role, setRole] = React.useState(null);
 
     const handleOpenModalMajor = (majorResp) => {
         const majors = majorResp.map(major => ({id: major.id, name: major.majorName}));
@@ -86,8 +88,9 @@ export default function Faculty() {
 
     useEffect(() => {
         getAllData();
+        setRole(getRole());
     }, []);
-
+    let isAdmin = role === 'ADMIN';
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
         {field: 'facultyName', headerName: 'Tên khoa', width: 200},
@@ -137,7 +140,7 @@ export default function Faculty() {
                 </div>
             ),
         },
-        {
+        isAdmin && {
             field: 'actions',
             headerName: 'Hành động',
             sortable: false,
@@ -158,18 +161,20 @@ export default function Faculty() {
                     </Button>
                 </div>
             ),
-        },
+        }
     ];
 
     return (
         <div>
-            <div className={"d-flex justify-content-end"}>
-                <Button className={"m-lg-1"} variant="contained" color="success"
-                        size="small"
-                        onClick={() => handleAddNew()}>
-                    <AddIcon/>Thêm mới
-                </Button>
-            </div>
+            {role && role === 'ADMIN' && (
+                <div className={"d-flex justify-content-start"}>
+                    <Button className={"m-lg-1"} variant="contained" color="success"
+                            size="small"
+                            onClick={() => handleAddNew()}>
+                        <AddIcon/>Thêm mới
+                    </Button>
+                </div>
+            )}
             <DataGrid
                 className="table-container mt-2"
                 rows={rows}

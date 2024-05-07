@@ -11,6 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ClassModal from "./class.modal";
+import {getRole} from "../../../../../utils/authentication";
 
 
 export default function Class(props) {
@@ -18,6 +19,9 @@ export default function Class(props) {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [role, setRole] = React.useState(null);
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
 
     function handleAddNew() {
         setIsModalOpen(true);
@@ -82,8 +86,19 @@ export default function Class(props) {
 
     useEffect(() => {
         getAllData();
+        console.log(getRole())
+        setRole(getRole());
     }, []);
 
+    useEffect(() => {
+        let isAdmin = role === 'ADMIN';
+        forceUpdate(); // Force re-render
+    }, [role]);
+
+
+    let isAdmin = role === 'ADMIN';
+    console.log("hi", isAdmin);
+    console.log("hi", role);
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
 
@@ -159,7 +174,7 @@ export default function Class(props) {
             valueFormatter: (params) => formatDate(params),
         },
 
-        {
+        isAdmin && {
             field: 'actions',
             headerName: 'Hành động',
             sortable: false,
@@ -180,18 +195,20 @@ export default function Class(props) {
                     </Button>
                 </div>
             ),
-        },
+        }
     ];
 
     return (
         <div>
-            <div className={"d-flex justify-content-end"}>
-                <Button className={"m-lg-1"} variant="contained" color="success"
-                        size="small"
-                        onClick={() => handleAddNew()}>
-                    <AddIcon/>Thêm mới
-                </Button>
-            </div>
+            {role && role === 'ADMIN' && (
+                <div className={"d-flex justify-content-start"}>
+                    <Button className={"m-lg-1"} variant="contained" color="success"
+                            size="small"
+                            onClick={() => handleAddNew()}>
+                        <AddIcon/>Thêm mới
+                    </Button>
+                </div>
+            )}
             <DataGrid
                 className="table-container"
                 rows={rows}

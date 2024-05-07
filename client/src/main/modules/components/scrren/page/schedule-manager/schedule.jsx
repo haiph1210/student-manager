@@ -12,6 +12,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleModal from "./schedule.modal";
 import './schedule.scss'
+import {getRole} from "../../../../../utils/authentication";
 
 
 export default function Schedule(props) {
@@ -19,6 +20,7 @@ export default function Schedule(props) {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
+    const [role, setRole] = React.useState(null);
 
     function handleAddNew() {
         setIsModalOpen(true);
@@ -87,8 +89,9 @@ export default function Schedule(props) {
 
     useEffect(() => {
         getAllData();
+        setRole(getRole());
     }, []);
-
+    let isAdmin = role === 'ADMIN';
     const columns = [
         {
             field: 'id',
@@ -152,7 +155,7 @@ export default function Schedule(props) {
             width: 160,
             valueFormatter: (params) => formatDate(params),
         },
-        {
+        isAdmin && {
             field: 'actions',
             headerName: 'Hành động',
             sortable: false,
@@ -173,19 +176,21 @@ export default function Schedule(props) {
                     </Button>
                 </div>
             ),
-        },
+        }
     ];
 
 
     return (
         <div>
-            <div className={"d-flex justify-content-end"}>
-                <Button className={"m-lg-1"} variant="contained" color="success"
-                        size="small"
-                        onClick={() => handleAddNew()}>
-                    <AddIcon/>Thêm mới
-                </Button>
-            </div>
+            {role && role === 'ADMIN' && (
+                <div className={"d-flex justify-content-start"}>
+                    <Button className={"m-lg-1"} variant="contained" color="success"
+                            size="small"
+                            onClick={() => handleAddNew()}>
+                        <AddIcon/>Thêm mới
+                    </Button>
+                </div>
+            )}
             <DataGrid
                 className="table-container  mt-2"
                 rows={rows}
