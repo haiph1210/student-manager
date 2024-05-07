@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { ScaleLoader } from 'react-spinners';
-import Box from '../../../../student-manager/share/box';
-import NameCard from '../../../../student-manager/share/box';
+import Box from '../../../../student-manager/share/card';
+import NameCard from '../../../../student-manager/share/card';
 import { getAllFaculty } from '../faculty-manager/faculty.service';
 import { getAllMajor } from '../major-manager/major.service';
 import { getAllSubject } from '../subject-manager/subject.service';

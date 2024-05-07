@@ -12,11 +12,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ClassModal from "./class.modal";
 import {getRole} from "../../../../../utils/authentication";
+import DataTable from "../../../../student-manager/share/table";
 
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpenSchedule, setIsModalOpenSchedule] = React.useState(false);
+    const [rowSchedule, setRowSchedule] = React.useState(null);
+    const [columnSchedule, setColumnSchedule] = React.useState(null);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [role, setRole] = React.useState(null);
@@ -99,6 +103,44 @@ export default function Class(props) {
     let isAdmin = role === 'ADMIN';
     console.log("hi", isAdmin);
     console.log("hi", role);
+
+    function handleSchedule(schedules) {
+        if (schedules) {
+            setIsModalOpenSchedule(true);
+            const column = [
+                {field: 'id', headerName: 'ID', width: 70},
+                {
+                    field: 'aClass',
+                    headerName: 'Tên lớp học',
+                    width: 200,
+                    valueFormatter: (params) => params.name
+                },
+                {
+                    field: 'subject',
+                    headerName: 'Tên môn học',
+                    width: 200,
+                    valueFormatter: (params) => params.subjectName
+                },
+                {
+                    field: 'startTime',
+                    headerName: 'Giờ bắt đầu',
+                    width: 200
+                },
+                {
+                    field: 'endTime',
+                    headerName: 'Giờ kết thúc',
+                    width: 200,
+                },
+            ];
+            setColumnSchedule(column);
+            setRowSchedule(schedules);
+        }
+    }
+
+    function handleStudent(row) {
+
+    }
+
     const columns = [
         {field: 'id', headerName: 'ID', width: 70},
 
@@ -120,7 +162,7 @@ export default function Class(props) {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => alert("Hi")}
+                        // onClick={() => handleStudent(params.row)}
                     >
                         <AccountCircleIcon/>
                         Sinh viên
@@ -139,7 +181,7 @@ export default function Class(props) {
                         variant="outlined"
                         color="info"
                         size="small"
-                        onClick={() => alert("Hi")}
+                        onClick={() => handleSchedule(params.row.schedules)}
                     >
                         <CalendarMonthIcon/>
                         Lịch học
@@ -224,6 +266,12 @@ export default function Class(props) {
                     type={modalType}
                     onClose={handleCloseModal}/>
             </Modal>
+
+            {isModalOpenSchedule && columnSchedule && (
+                <Modal show={isModalOpenSchedule} fullscreen={true} onHide={() => setIsModalOpenSchedule(false)}>
+                    <DataTable rows={rowSchedule} columns={columnSchedule}/>
+                </Modal>
+            )}
         </div>
     );
 };

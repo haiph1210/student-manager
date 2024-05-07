@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import {deleted, getAllMajor} from "./major.service";
 import MajorModal from "./major.modal";
 import {getRole} from "../../../../../utils/authentication";
+import NameCard from "../../../../student-manager/share/card";
 
 export default function Major() {
     const [rows, setRows] = React.useState([]);
@@ -18,6 +19,17 @@ export default function Major() {
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [role, setRole] = React.useState(null);
+    const [isModalOpenMore, setIsModalOpenMore] = React.useState(false);
+    const [classs, setClass] = React.useState([]);
+
+    const handleOpenModalMore = (dataResponse) => {
+        if (dataResponse && dataResponse) {
+            const response = dataResponse.map(resp => ({id: resp.id, name: resp.name}));
+            setClass(response);
+            setIsModalOpenMore(true);
+        }
+
+    }
 
     function handleAddNew() {
         setIsModalOpen(true);
@@ -99,7 +111,7 @@ export default function Major() {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => alert("Hi")}
+                        onClick={() => handleOpenModalMore(params.row.classes)}
                     >
                         <DensitySmallSharpIcon/>
                         Lớp học
@@ -184,6 +196,15 @@ export default function Major() {
                     id={selectedId}
                     type={modalType}
                     onClose={handleCloseModal}/>
+            </Modal>
+
+            <Modal show={isModalOpenMore}
+                   size={'lg'}
+                   onHide={() => setIsModalOpenMore(false)}>
+                <div className="modal-content"
+                     style={{position: 'absolute', top: '150px', zIndex: 1000, padding: "30px"}}>
+                    <NameCard title={"Lớp"} rows={classs}/>
+                </div>
             </Modal>
 
         </div>

@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import FacultyModal from "./faculty.modal";
 import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
-import NameCard from "../../../../student-manager/share/box";
+import NameCard from "../../../../student-manager/share/card";
 import {getRole} from "../../../../../utils/authentication";
 
 export default function Faculty() {

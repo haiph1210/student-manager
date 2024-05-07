@@ -12,6 +12,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UserModal from "./user.modal";
 import UserDetailModal from "./user.detail.modal";
 import {getRole} from "../../../../../utils/authentication";
+import DataTable from "../../../../student-manager/share/table";
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
@@ -22,7 +23,42 @@ export default function Class(props) {
     const [selectedId, setSelectedId] = React.useState(null);
     const [selectedIds, setSelectedIds] = React.useState([]);
     const [role, setRole] = React.useState(null);
+    const [isModalOpenSchedule, setIsModalOpenSchedule] = React.useState(false);
+    const [rowSchedule, setRowSchedule] = React.useState(null);
+    const [columnSchedule, setColumnSchedule] = React.useState(null);
 
+    function handleSchedule(schedules) {
+        if (schedules) {
+            setIsModalOpenSchedule(true);
+            const column = [
+                {field: 'id', headerName: 'ID', width: 70},
+                {
+                    field: 'aClass',
+                    headerName: 'Tên lớp học',
+                    width: 200,
+                    valueFormatter: (params) => params.name
+                },
+                {
+                    field: 'subject',
+                    headerName: 'Tên môn học',
+                    width: 200,
+                    valueFormatter: (params) => params.subjectName
+                },
+                {
+                    field: 'startTime',
+                    headerName: 'Giờ bắt đầu',
+                    width: 200
+                },
+                {
+                    field: 'endTime',
+                    headerName: 'Giờ kết thúc',
+                    width: 200,
+                },
+            ];
+            setColumnSchedule(column);
+            setRowSchedule(schedules);
+        }
+    }
     const handleSelectionModelChange = (selectionModel) => {
         console.log(selectionModel)
         setSelectedIds(selectionModel);
@@ -162,7 +198,7 @@ export default function Class(props) {
                         variant="outlined"
                         color="info"
                         size="small"
-                        onClick={() => alert("Hi")}
+                        onClick={() => handleSchedule(params.row.aClass.schedules)}
                     >
                         <CalendarMonthIcon/>
                         Lịch học
@@ -257,6 +293,11 @@ export default function Class(props) {
                     type={modalType}
                     onClose={handleCloseModalDetail}/>
             </Modal>
+            {isModalOpenSchedule && columnSchedule && (
+                <Modal show={isModalOpenSchedule} fullscreen={true} onHide={() => setIsModalOpenSchedule(false)}>
+                    <DataTable rows={rowSchedule} columns={columnSchedule}/>
+                </Modal>
+            )}
         </div>
     );
 };
