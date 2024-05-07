@@ -9,7 +9,8 @@ public enum ERROR {
     SYSTEM_ERROR(99, "Hệ thống đang nâng cấp tính năng này, xin vui lòng thử lại sau!"),
     BAD_REQUEST(400, "Bad request"),
     RESOURCE_NOT_FOUND(404, "Resource not found"),
-    UNAUTHORIZED(401, "Xác thực thất bại");
+    UNAUTHORIZED(401, "Xác thực thất bại"),
+    EXPIRED_JWT_EXCEPTION(403, "Mã thông báo JWT đã hết hạn");
 
     private final int code;
     private final String message;

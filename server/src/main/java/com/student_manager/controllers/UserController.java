@@ -56,15 +56,15 @@ public class UserController {
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/addOrUpdateUserToClass/{classId}")
-    public ResponseEntity<?> addOrUpdateUserToClass(@PathVariable Long classId) throws ApiException {
-        BaseResponse<?> baseResponse = new BaseResponse<>(userService.addOrUpdateUserToClass(classId).getId());
+    @PostMapping("/addOrUpdateUserToClass/user/{userId}/class/{classId}")
+    public ResponseEntity<?> addOrUpdateUserToClass(@PathVariable Long userId, @PathVariable Long classId) throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(userService.addOrUpdateUserToClass(userId, classId).getId());
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/removeUserToClass")
-    public ResponseEntity<?> removeUserToClass() throws ApiException {
-        BaseResponse<?> baseResponse = new BaseResponse<>(userService.removeUserToClass().getId());
+    @PostMapping("/removeUserToClass/user/{userId}")
+    public ResponseEntity<?> removeUserToClass(@PathVariable Long userId) throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(userService.removeUserToClass(userId).getId());
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 }

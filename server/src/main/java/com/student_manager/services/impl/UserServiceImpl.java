@@ -129,16 +129,17 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public User addOrUpdateUserToClass(Long classId) throws ApiException {
+    public User addOrUpdateUserToClass(Long userId, Long classId) throws ApiException {
         Class aClass = classService.findById(classId);
-        User user = this.getUser();
+        User user = findById(userId);
+        user.setAClass(null);
         user.setAClass(aClass);
         return userRepository.save(user);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public User removeUserToClass() throws ApiException {
+    public User removeUserToClass(Long userId) throws ApiException {
         User user = this.getUser();
         user.setAClass(null);
         return userRepository.save(user);

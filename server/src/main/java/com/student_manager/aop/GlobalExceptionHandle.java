@@ -3,6 +3,7 @@ package com.student_manager.aop;
 import com.student_manager.core.ApiException;
 import com.student_manager.core.BaseResponse;
 import com.student_manager.core.ERROR;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,11 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandle /*extends ResponseEntityExceptionHandler*/ {
     private static final Logger LOGGER = LogManager.getLogger(GlobalExceptionHandle.class);
 
+    @ExceptionHandler(value = {ExpiredJwtException.class})
+    public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
+        String errorMessage = "JWT token is expired: " + ex.getMessage();
+        return new ResponseEntity<>(new BaseResponse<>(ERROR.EXPIRED_JWT_EXCEPTION), HttpStatus.UNAUTHORIZED);
+    }
     @ExceptionHandler(ApiException.class)
     @ResponseBody
     public ResponseEntity<BaseResponse<?>> handleCustomizedException(ApiException e) {

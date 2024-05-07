@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ApiException extends Exception {
+public class ApiException extends RuntimeException {
     private int code;
     private Object data;
 

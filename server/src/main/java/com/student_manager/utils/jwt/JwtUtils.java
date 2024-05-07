@@ -1,5 +1,7 @@
 package com.student_manager.utils.jwt;
 
+import com.student_manager.core.ApiException;
+import com.student_manager.core.ERROR;
 import com.student_manager.services.impl.authentication.CustomUserDetails;
 import io.jsonwebtoken.*;
 
@@ -38,22 +40,25 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String authToken) throws ApiException {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
+            throw new ApiException(ERROR.SYSTEM_ERROR,"Invalid JWT signature");
         } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
+            throw new ApiException(ERROR.SYSTEM_ERROR,"Invalid JWT token");
         } catch (ExpiredJwtException e) {
             log.error("JWT token is expired: {}", e.getMessage());
+            throw new ApiException(ERROR.SYSTEM_ERROR,"JWT token is expired");
         } catch (UnsupportedJwtException e) {
             log.error("JWT token is unsupported: {}", e.getMessage());
+            throw new ApiException(ERROR.SYSTEM_ERROR,"JWT token is unsupported");
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
+            throw new ApiException(ERROR.SYSTEM_ERROR,"JWT claims string is empty");
         }
-
-        return false;
     }
 }

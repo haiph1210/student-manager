@@ -25,9 +25,9 @@ public interface UserService {
 
     User update(Long id, UserRequest request) throws ApiException;
 
-    @Transactional(rollbackOn = ERROR.class)
-    User addOrUpdateUserToClass(Long classId) throws ApiException;
+    @Transactional(rollbackOn = Exception.class)
+    User addOrUpdateUserToClass(Long classId, Long id) throws ApiException;
 
-    @Transactional(rollbackOn = ERROR.class)
-    User removeUserToClass() throws ApiException;
+    @Transactional(rollbackOn = Exception.class)
+    User removeUserToClass(Long userId) throws ApiException;
 }

@@ -1,5 +1,7 @@
 package com.student_manager.config.sercurity;
 
+import com.student_manager.core.ApiException;
+import com.student_manager.core.ERROR;
 import com.student_manager.services.impl.authentication.UserDetailsServiceImpl;
 import com.student_manager.utils.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
+            throw new ApiException(ERROR.UNAUTHORIZED,"Cannot set user authentication");
         }
 
         filterChain.doFilter(request, response);
