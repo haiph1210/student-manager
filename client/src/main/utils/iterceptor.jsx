@@ -20,7 +20,7 @@ const setupInterceptors = () => {
 
     instance.interceptors.response.use(
         (response) => {
-            return response.data ? response.data : { statusCode: response.status };
+            return response.data ? response.data : {statusCode: response.status};
         },
         (error) => {
             console.log(error)
@@ -36,7 +36,10 @@ const setupInterceptors = () => {
                         title: 'Access Denied',
                         text: 'Your session has expired. Please log in again.',
                     }).then(() => {
-                        window.location.href = '/login';
+                        setTimeout(() => {
+                                window.location.href = '/login';
+                            }
+                            , 5000)
                     });
                 }
             } else if (error.request) {

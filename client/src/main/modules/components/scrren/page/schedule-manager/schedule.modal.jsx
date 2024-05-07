@@ -42,15 +42,16 @@ const ScheduleModal = ({id, type, onClose}) => {
             subjectId: Yup.string().required('Vui lòng nhập môn học.'),
         }),
         onSubmit: async (values) => {
-            const startTime = parse(formik.values.startTime);
-            const endTime = parse(formik.values.endTime);
+            console.log('startTime', formik.values.startTime)
+            const startTimeFormatted = dayjs(formik.values.startTime).format('HH:mm:ss');
+            const endTimeFormatted = dayjs(formik.values.endTime).format('HH:mm:ss');
 
-            console.log(startTime);
-            console.log(endTime);
+            console.log(startTimeFormatted);
+            console.log(endTimeFormatted);
             // Tạo object mới chỉ với giờ
             const newValues = {
-                startTime: startTime,
-                endTime: endTime,
+                startTime: startTimeFormatted,
+                endTime: endTimeFormatted,
                 classId: values.classId,
                 subjectId: values.subjectId,
             };
@@ -200,10 +201,9 @@ const ScheduleModal = ({id, type, onClose}) => {
                                 helperText={formik.touched.startTime && formik.errors.startTime}
                                 margin="normal"
                                 fullWidth
-                                sx={{width: '100%'}} // Thiết lập chiều rộng cho TimePicker
+                                sx={{width: '100%'}}
                             />
                             <div style={{marginBottom: '1rem'}}/>
-                            {/* Khoảng cách giữa hai TimePicker */}
                             <TimePicker
                                 label="Thời gian kết thúc"
                                 value={formik.values.endTime}
@@ -213,7 +213,7 @@ const ScheduleModal = ({id, type, onClose}) => {
                                 helperText={formik.touched.endTime && formik.errors.endTime}
                                 margin="normal"
                                 fullWidth
-                                sx={{width: '100%'}} // Thiết lập chiều rộng cho TimePicker
+                                sx={{width: '100%'}}
                             />
                         </LocalizationProvider>
 
