@@ -13,6 +13,7 @@ import com.student_manager.services.ClassService;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     private final ClassService classService;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+
+    @Value("${security.password.default}")
+    private String defaultPassword;
 
     public UserServiceImpl(UserRepository userRepository, ClassService classService, PasswordEncoder passwordEncoder,
                            UserMapper userMapper) {
@@ -125,6 +129,18 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
 //                .build();
 //        user.setStudent(student);
         return user;
+    }
+
+    @Override
+    public String resetPassword(Long userId) {
+        User user = findById(userId);
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new ApiException(ERROR.SYSTEM_ERROR);
+        }
+        return "ResetPassword Thành công, Mật khẩu của bạn là :" + defaultPassword;
     }
 
     @Override

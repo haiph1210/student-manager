@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {detail} from "./user.service";
+import {detail, resetPassword} from "./user.service";
 import Swal from "sweetalert2";
 import {useFormik} from "formik";
 import TextField from '@mui/material/TextField';
@@ -62,8 +62,25 @@ export default function UserDetailModal({id, onClose}) {
         }
     };
 
-    function handleResetPassword() {
-        console.log(selectedId);
+    async function handleResetPassword() {
+        const resp = await resetPassword(id);
+        if (resp) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: resp.data,
+                showConfirmButton: true,
+                timer: 1500
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại',
+                text: 'Reset password thất bại',
+                showConfirmButton: true,
+                timer: 1500
+            });
+        }
     }
 
     function handleAddOrUpdateToClass() {

@@ -67,4 +67,9 @@ public class UserController {
         BaseResponse<?> baseResponse = new BaseResponse<>(userService.removeUserToClass(userId).getId());
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
+    @PostMapping("/resetPassword/{userId}")
+        public ResponseEntity<?> resetPassword(@PathVariable Long userId) throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(userService.resetPassword(userId));
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+    }
 }

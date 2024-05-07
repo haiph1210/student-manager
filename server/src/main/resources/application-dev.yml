@@ -34,6 +34,8 @@ security:
   jwt:
     secret: student-manager
     expirationMs: 3600000
+  password:
+    default: ABC123abc@
 
 folder:
   path: E:/7.code_thue/1.shop_quan_ao/shop_quan_ao/server

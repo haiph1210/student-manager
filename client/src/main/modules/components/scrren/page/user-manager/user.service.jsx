@@ -27,3 +27,6 @@ export const addOrUpdateUserToClass = async (userId, classId) => {
 export const removeUserToClass = async (userId) => {
     return await instance.post(REQUEST_MAPPING + '/removeUserToClass/user/' + userId);
 }
+export const resetPassword = async (userId) => {
+    return await instance.post(REQUEST_MAPPING + '/resetPassword/' + userId);
+}

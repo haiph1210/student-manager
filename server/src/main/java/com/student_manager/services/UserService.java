@@ -25,6 +25,8 @@ public interface UserService {
 
     User update(Long id, UserRequest request) throws ApiException;
 
+    String resetPassword(Long userId);
+
     @Transactional(rollbackOn = Exception.class)
     User addOrUpdateUserToClass(Long classId, Long id) throws ApiException;
 
