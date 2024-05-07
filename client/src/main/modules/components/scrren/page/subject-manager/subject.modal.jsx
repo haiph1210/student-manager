@@ -20,7 +20,6 @@ const SubjectModal = ({id, type, onClose}) => {
 
         }),
         onSubmit: async (values) => {
-            console.log('hi')
             try {
                 if (type === 'add') {
                     const addResponse = await add({request: values});

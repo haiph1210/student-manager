@@ -21,3 +21,9 @@ export const update = async (id, {request}) => {
 export const deleted = async (id) => {
     return await instance.post(REQUEST_MAPPING + '/delete/' + id);
 }
+export const addOrUpdateUserToClass = async (userId, classId) => {
+    return await instance.post(REQUEST_MAPPING + '/addOrUpdateUserToClass/user/' + userId + '/class/' + classId);
+}
+export const removeUserToClass = async (userId) => {
+    return await instance.post(REQUEST_MAPPING + '/removeUserToClass/user/' + userId);
+}

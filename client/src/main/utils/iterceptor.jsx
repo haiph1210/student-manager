@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const instance = axios.create({
     baseURL: 'http://localhost:8000/student-manager',
@@ -11,7 +12,6 @@ const setupInterceptors = () => {
         if (authentication && request.method !== "GET") {
             const authenticationResp = JSON.parse(authentication);
             const token = authenticationResp.token;
-            console.log(token);
             request.headers['Authorization'] = 'Bearer ' + token;
             request.headers['Cros-Orrigin'] = instance.headers;
         }
@@ -23,11 +23,22 @@ const setupInterceptors = () => {
             return response.data ? response.data : { statusCode: response.status };
         },
         (error) => {
+            console.log(error)
             let res = {};
             if (error.response) {
                 res.data = error.response.data;
                 res.status = error.response.status;
                 res.headers = error.response.headers;
+                if (error.response.status === 500) {
+                    localStorage.clear();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Access Denied',
+                        text: 'Your session has expired. Please log in again.',
+                    }).then(() => {
+                        window.location.href = '/login';
+                    });
+                }
             } else if (error.request) {
                 console.log(error.request);
             } else {

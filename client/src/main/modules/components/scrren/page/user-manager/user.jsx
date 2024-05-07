@@ -10,14 +10,12 @@ import {DataGrid} from "@mui/x-data-grid";
 import Modal from "react-bootstrap/Modal";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UserModal from "./user.modal";
-import RotateLeftIcon from '@mui/icons-material/RotateLeft';
-import PlaylistAddCircleIcon from '@mui/icons-material/PlaylistAddCircle';
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import UserDetailModal from "./user.detail.modal";
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpenDetail, setIsModalOpenDetail] = React.useState(false);
     const [isModalOpenAddClass, setIsModalOpenAddClass] = React.useState(false);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
@@ -50,6 +48,7 @@ export default function Class(props) {
 
     function handleUpdateToClass() {
     }
+
     function handleRemoveFromClass() {
     }
 
@@ -87,6 +86,11 @@ export default function Class(props) {
         getAllData();
     };
 
+    const handleCloseModalDetail = () => {
+        setIsModalOpenDetail(false);
+        getAllData();
+    };
+
     const getAllData = async () => {
         try {
             const response = await getAll();
@@ -108,12 +112,25 @@ export default function Class(props) {
         }
     };
 
+    function handleIdClick(id) {
+        setSelectedId(id);
+        setIsModalOpenDetail(true);
+    }
+
     useEffect(() => {
         getAllData();
     }, []);
 
     const columns = [
-        {field: 'id', headerName: 'ID', width: 70},
+        {
+            field: 'id', headerName: 'ID', width: 90,
+            renderCell: (params) => (
+                <Button variant="outlined" color="primary" size="small" onClick={() => handleIdClick(params.value)}>
+                    {params.value}
+                </Button>
+            )
+        },
+
         {field: 'fullName', headerName: 'Họ và tên', width: 200},
         {field: 'email', headerName: 'Email', width: 200},
         {field: 'phoneNumber', headerName: 'Số điện thoại', width: 150},
@@ -203,29 +220,7 @@ export default function Class(props) {
     return (
         <div>
             <div className={"d-flex justify-content-start"}>
-                <Button className={"m-lg-1"} variant="contained" color="inherit"
-                        size="small"
-                        onClick={() => handleResetPassword()}>
-                    <RotateLeftIcon/>Reset Password
-                </Button>
 
-                <Button className={"m-lg-1"} variant="contained" color="info"
-                        size="small"
-                        onClick={() => handleAddToClass()}>
-                    <PlaylistAddCircleIcon/>Thêm vào lớp
-                </Button>
-
-                <Button className={"m-lg-1"} variant="contained" color="secondary"
-                        size="small"
-                        onClick={() => handleUpdateToClass()}>
-                    <EditNoteIcon/> Cập nhật lớp
-                </Button>
-
-                <Button className={"m-lg-1"} variant="contained" color="error"
-                        size="small"
-                        onClick={() => handleRemoveFromClass()}>
-                    <DeleteForeverIcon/> Xóa khỏi lớp
-                </Button>
 
                 <Button className={"m-lg-1"} variant="contained" color="success"
                         size="small"
@@ -250,6 +245,14 @@ export default function Class(props) {
                     id={selectedId}
                     type={modalType}
                     onClose={handleCloseModal}/>
+            </Modal>
+            <Modal show={isModalOpenDetail}
+                   fullscreen={true}
+                   onHide={() => setIsModalOpenDetail(false)}>
+                <UserDetailModal
+                    id={selectedId}
+                    type={modalType}
+                    onClose={handleCloseModalDetail}/>
             </Modal>
         </div>
     );
