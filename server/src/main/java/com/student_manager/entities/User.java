@@ -1,6 +1,7 @@
 package com.student_manager.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.student_manager.enums.Gender;
 import com.student_manager.core.BaseEntities;
 import com.student_manager.enums.Role;
@@ -50,13 +51,10 @@ public class User extends BaseEntities {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
-
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Student student;
-
     @ManyToOne
     @JoinColumn(name = "class_id")
     @JsonIgnoreProperties("users")
+    @JsonManagedReference // Sử dụng @JsonManagedReference để chỉ ra đây là phía quản lý của mối quan hệ
     private Class aClass;
 
     @PrePersist
