@@ -30,6 +30,3 @@ spring:
 security:
   api:
     ignores: /auth/**
-
-folder:
-  path: E:/7.code_thue/1.shop_quan_ao/shop_quan_ao/server
