@@ -18,9 +18,14 @@ import DataTable from "../../../../student-manager/share/table";
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+
     const [isModalOpenSchedule, setIsModalOpenSchedule] = React.useState(false);
     const [rowSchedule, setRowSchedule] = React.useState(null);
     const [columnSchedule, setColumnSchedule] = React.useState(null);
+
+    const [isModalOpenStudent, setIsModalOpenStudent] = React.useState(false);
+    const [rowStudent, setRowStudent] = React.useState(null);
+    const [columnStudent, setColumnStudent] = React.useState(null);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [role, setRole] = React.useState(null);
@@ -162,7 +167,7 @@ export default function Class(props) {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        // onClick={() => handleStudent(params.row)}
+                        onClick={() => handleStudent(params.row.id)}
                     >
                         <AccountCircleIcon/>
                         Sinh viên
