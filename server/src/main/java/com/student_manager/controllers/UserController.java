@@ -6,6 +6,7 @@ import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.dtos.responses.UserResponse;
 import com.student_manager.entities.User;
 import com.student_manager.services.UserService;
+import com.student_manager.utils.DataUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,11 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> findAll() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<?> findAll(@RequestParam(required = false) String role) {
+        if (DataUtils.isNullOrEmpty(role) || role.equals("ALL")) {
+            role = null;
+        }
+        List<User> users = userService.findAll(role);
         List<UserResponse> userResponses = users
                 .stream()
                 .map(item -> modelMapper.map(item, UserResponse.class))
@@ -67,8 +71,9 @@ public class UserController {
         BaseResponse<?> baseResponse = new BaseResponse<>(userService.removeUserToClass(userId).getId());
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
+
     @PostMapping("/resetPassword/{userId}")
-        public ResponseEntity<?> resetPassword(@PathVariable Long userId) throws ApiException {
+    public ResponseEntity<?> resetPassword(@PathVariable Long userId) throws ApiException {
         BaseResponse<?> baseResponse = new BaseResponse<>(userService.resetPassword(userId));
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }

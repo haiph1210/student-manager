@@ -1,8 +1,10 @@
 import instance from "../../../../../utils/iterceptor";
 
 const REQUEST_MAPPING = '/users';
-export const getAll = async () => {
-    return await instance.get(REQUEST_MAPPING);
+export const getAll = async (role) => {
+    return await instance.get(REQUEST_MAPPING,{
+        params: { role }
+    });
 }
 
 export const detail = async (id) => {

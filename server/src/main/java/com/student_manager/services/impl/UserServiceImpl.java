@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,8 +41,13 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll(String role) {
+        return userRepository.findAllByRole(role).orElse(new ArrayList<>());
+    }
+
+    @Override
+    public List<User> findAllByClassId(Long classId) {
+        return userRepository.findAllByClassId(classId).orElse(new ArrayList<>());
     }
 
     @Override
