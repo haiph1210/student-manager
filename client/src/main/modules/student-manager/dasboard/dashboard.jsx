@@ -140,7 +140,7 @@ export default function Dashboard(props) {
                         open={open}
                     >
                         <DrawerHeader>
-                            <img src={logo} alt="Logo" style={{height: '60px', width: '260px', marginRight: 'auto'}}/>
+                            <img src={logo} alt="Logo" style={{height: '65px', width: '270px', marginRight: 'auto'}}/>
                             <IconButton onClick={handleDrawerClose}>
                                 {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                             </IconButton>
