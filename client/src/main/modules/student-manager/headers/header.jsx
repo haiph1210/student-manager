@@ -13,7 +13,8 @@ import {Link} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import {MenuItem} from "@mui/material";
-import logo from '../../../assets/images/img-school/logo.png';
+import logo from '../../../assets/images/img-school/Logo-Dai-Hoc-Tay-Bac.png';
+
 
 export default function Header(props) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
