@@ -162,12 +162,12 @@ export default function Schedule(props) {
             width: 250,
             renderCell: (params) => (
                 <div className={''}>
-                    <Button className={"m-lg-1"} variant="contained" color="warning"
-                            size="small"
-                            onClick={() => handleEditClick(params.row.id)}>
-                        <EditNoteSharpIcon/>
-                        Cập nhật
-                    </Button>
+                    {/*<Button className={"m-lg-1"} variant="contained" color="warning"*/}
+                    {/*        size="small"*/}
+                    {/*        onClick={() => handleEditClick(params.row.id)}>*/}
+                    {/*    <EditNoteSharpIcon/>*/}
+                    {/*    Cập nhật*/}
+                    {/*</Button>*/}
                     <Button variant="outlined" color="error"
                             size="small"
                             onClick={async () => handleDelete(params.row.id)}>
