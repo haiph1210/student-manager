@@ -6,6 +6,9 @@ export const getAll = async (role) => {
         params: { role }
     });
 }
+export const findAllByClassId = async (classId) => {
+    return await instance.get(REQUEST_MAPPING + "/class/" + classId);
+}
 
 export const detail = async (id) => {
     return await instance.get(REQUEST_MAPPING + '/' + id);

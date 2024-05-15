@@ -32,6 +32,16 @@ public class UserController {
             role = null;
         }
         List<User> users = userService.findAll(role);
+        return getResponseEntity(users);
+    }
+
+    @GetMapping("/class/{classId}")
+    public ResponseEntity<?> findAllByClassId(@PathVariable Long classId) {
+        List<User> users = userService.findAllByClassId(classId);
+        return getResponseEntity(users);
+    }
+
+    private ResponseEntity<?> getResponseEntity(List<User> users) {
         List<UserResponse> userResponses = users
                 .stream()
                 .map(item -> modelMapper.map(item, UserResponse.class))

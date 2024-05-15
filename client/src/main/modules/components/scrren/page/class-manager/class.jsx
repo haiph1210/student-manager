@@ -13,6 +13,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ClassModal from "./class.modal";
 import {getRole} from "../../../../../utils/authentication";
 import DataTable from "../../../../student-manager/share/table";
+import {findAllByClassId} from "../user-manager/user.service";
 
 
 export default function Class(props) {
@@ -142,8 +143,30 @@ export default function Class(props) {
         }
     }
 
-    function handleStudent(row) {
-
+    async function handleStudent(classId) {
+        if (classId) {
+            setIsModalOpenStudent(true);
+            const column = [
+                {
+                    field: 'fullName', headerName: 'Họ và tên', width: 200,
+                    renderCell: (params) => `${params.row.firstName} ${params.row.lastName}`
+                },
+                {field: 'email', headerName: 'Email', width: 200},
+                {field: 'phoneNumber', headerName: 'Số điện thoại', width: 150},
+                {field: 'address', headerName: 'Địa chỉ', width: 300},
+                {field: 'nation', headerName: 'Quốc gia', width: 150},
+                {field: 'dateOfBirth', headerName: 'Ngày sinh', width: 150},
+                {field: 'citizenId', headerName: 'Số CMND', width: 200},
+                {field: 'religion', headerName: 'Tôn giáo', width: 150},
+                {field: 'nationality', headerName: 'Quốc tịch', width: 150},
+                {field: 'gender', headerName: 'Giới tính', width: 150},
+            ]
+            const userInClass = await findAllByClassId(classId);
+            setColumnStudent(column);
+            if (userInClass) {
+                setRowStudent(userInClass.data);
+            }
+        }
     }
 
     const columns = [
@@ -275,6 +298,12 @@ export default function Class(props) {
             {isModalOpenSchedule && columnSchedule && (
                 <Modal show={isModalOpenSchedule} fullscreen={true} onHide={() => setIsModalOpenSchedule(false)}>
                     <DataTable rows={rowSchedule} columns={columnSchedule}/>
+                </Modal>
+            )}
+
+            {isModalOpenStudent && columnStudent && (
+                <Modal show={isModalOpenStudent} fullscreen={true} onHide={() => setIsModalOpenStudent(false)}>
+                    <DataTable rows={rowStudent} columns={columnStudent}/>
                 </Modal>
             )}
         </div>
