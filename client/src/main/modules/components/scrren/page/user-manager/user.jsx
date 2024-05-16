@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {deleted, getAll} from "./user.service";
 import Swal from "sweetalert2";
-import {Button} from "@mui/material";
+import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {formatDate} from "../../../../../utils/date.utils";
 import EditNoteSharpIcon from "@mui/icons-material/EditNoteSharp";
 import DeleteSweepSharpIcon from "@mui/icons-material/DeleteSweepSharp";
@@ -13,7 +13,7 @@ import UserModal from "./user.modal";
 import UserDetailModal from "./user.detail.modal";
 import {getRole} from "../../../../../utils/authentication";
 import DataTable from "../../../../student-manager/share/table";
-
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -26,6 +26,8 @@ export default function Class(props) {
     const [isModalOpenSchedule, setIsModalOpenSchedule] = React.useState(false);
     const [rowSchedule, setRowSchedule] = React.useState(null);
     const [columnSchedule, setColumnSchedule] = React.useState(null);
+    const [roleSelected, setRoleSelected] = React.useState('ADMIN');
+
 
     function handleSchedule(schedules) {
         if (schedules) {
@@ -59,6 +61,7 @@ export default function Class(props) {
             setRowSchedule(schedules);
         }
     }
+
     const handleSelectionModelChange = (selectionModel) => {
         console.log(selectionModel)
         setSelectedIds(selectionModel);
@@ -131,7 +134,7 @@ export default function Class(props) {
 
     const getAllData = async () => {
         try {
-            const response = await getAll();
+            const response = await getAll(roleSelected);
             if (response && response.data && response.data.length > 0) {
                 const formattedData = response.data.map(item => ({
                     ...item,
@@ -257,8 +260,40 @@ export default function Class(props) {
         }
     ];
 
+    function findAction() {
+        getAllData();
+    }
+
     return (
         <div>
+            <div className={"d-flex justify-content-start mb-lg-3"}>
+                <FormControl size={'medium'}>
+                    <InputLabel id="role-label">Vai trò</InputLabel>
+                    <Select
+                        labelId="role-label"
+                        id="roleSelected"
+                        name="roleSelected"
+                        value={roleSelected} // Set the value of the Select component
+                        onChange={(event) => setRoleSelected(event.target.value)}
+                    >
+                        <MenuItem value="ALL">Tất cả</MenuItem>
+                        <MenuItem value="ADMIN">Quản trị viên</MenuItem>
+                        <MenuItem value="USER">Sinh viên</MenuItem>
+
+                    </Select>
+
+
+                </FormControl>
+                <Button className={"ms-3"} variant="contained" color="info"
+                        size="small"
+                        onClick={() => findAction()}>
+                    <ManageSearchIcon/>Tìm kiếm
+                </Button>
+
+            </div>
+
+
+
             {role && role === 'ADMIN' && (
                 <div className={"d-flex justify-content-start"}>
                     <Button className={"m-lg-1"} variant="contained" color="success"
@@ -268,6 +303,8 @@ export default function Class(props) {
                     </Button>
                 </div>
             )}
+
+
             <DataGrid
                 className="table-container mt-3"
                 rows={rows}

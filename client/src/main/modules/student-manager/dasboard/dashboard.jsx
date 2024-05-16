@@ -20,8 +20,9 @@ import {setting} from "../../../utils/setting";
 import Header from "../headers/header";
 import Footer from "../footer/footer";
 import {useEffect} from "react";
+import logo from '../../../assets/images/img-school/slider.png';
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
@@ -139,6 +140,7 @@ export default function Dashboard(props) {
                         open={open}
                     >
                         <DrawerHeader>
+                            <img src={logo} alt="Logo" style={{height: '65px', width: '270px', marginRight: 'auto'}}/>
                             <IconButton onClick={handleDrawerClose}>
                                 {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                             </IconButton>

@@ -1,7 +1,6 @@
 package com.student_manager.services;
 
 import com.student_manager.core.ApiException;
-import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.entities.User;
 
@@ -9,7 +8,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserService {
-    List<User> findAll();
+    List<User> findAll(String role);
+
+    List<User> findAllByClassId(Long classId);
 
     User findById(Long id) throws ApiException;
 

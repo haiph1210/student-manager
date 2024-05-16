@@ -13,6 +13,8 @@ import {Link} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import {MenuItem} from "@mui/material";
+import logo from '../../../assets/images/img-school/Logo-Dai-Hoc-Tay-Bac.png';
+
 
 export default function Header(props) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -40,8 +42,10 @@ export default function Header(props) {
 
     return (
         <>
+            <img src={logo} alt="Logo" style={{ height: '70px' , marginRight: 'auto' }}/>
             <Container maxWidth="xl" className={"d-flex justify-content-end"}>
                 <Toolbar disableGutters>
+
                     <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>

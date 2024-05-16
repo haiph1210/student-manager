@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,11 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandle /*extends ResponseEntityExceptionHandler*/ {
     private static final Logger LOGGER = LogManager.getLogger(GlobalExceptionHandle.class);
 
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public ResponseEntity<Object> handleExpiredJwtException(AccessDeniedException ex) {
+        String errorMessage = "Access Denied: " + ex.getMessage();
+        return new ResponseEntity<>(new BaseResponse<>(ERROR.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+    }
     @ExceptionHandler(value = {ExpiredJwtException.class})
     public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
         String errorMessage = "JWT token is expired: " + ex.getMessage();

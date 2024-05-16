@@ -5,6 +5,8 @@ import com.student_manager.core.ERROR;
 import com.student_manager.services.impl.authentication.UserDetailsServiceImpl;
 import com.student_manager.utils.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+
 @Component
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
@@ -44,7 +48,8 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
-            throw new ApiException(ERROR.UNAUTHORIZED,"Cannot set user authentication");
+            throw new AccessDeniedException("Cannot set user authentication");
+//            new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);

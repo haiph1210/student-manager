@@ -13,14 +13,20 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ClassModal from "./class.modal";
 import {getRole} from "../../../../../utils/authentication";
 import DataTable from "../../../../student-manager/share/table";
+import {findAllByClassId} from "../user-manager/user.service";
 
 
 export default function Class(props) {
     const [rows, setRows] = React.useState([]);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+
     const [isModalOpenSchedule, setIsModalOpenSchedule] = React.useState(false);
     const [rowSchedule, setRowSchedule] = React.useState(null);
     const [columnSchedule, setColumnSchedule] = React.useState(null);
+
+    const [isModalOpenStudent, setIsModalOpenStudent] = React.useState(false);
+    const [rowStudent, setRowStudent] = React.useState(null);
+    const [columnStudent, setColumnStudent] = React.useState(null);
     const [modalType, setModalType] = React.useState(null);
     const [selectedId, setSelectedId] = React.useState(null);
     const [role, setRole] = React.useState(null);
@@ -137,8 +143,30 @@ export default function Class(props) {
         }
     }
 
-    function handleStudent(row) {
-
+    async function handleStudent(classId) {
+        if (classId) {
+            setIsModalOpenStudent(true);
+            const column = [
+                {
+                    field: 'fullName', headerName: 'Họ và tên', width: 200,
+                    renderCell: (params) => `${params.row.firstName} ${params.row.lastName}`
+                },
+                {field: 'email', headerName: 'Email', width: 200},
+                {field: 'phoneNumber', headerName: 'Số điện thoại', width: 150},
+                {field: 'address', headerName: 'Địa chỉ', width: 300},
+                {field: 'nation', headerName: 'Quốc gia', width: 150},
+                {field: 'dateOfBirth', headerName: 'Ngày sinh', width: 150},
+                {field: 'citizenId', headerName: 'Số CMND', width: 200},
+                {field: 'religion', headerName: 'Tôn giáo', width: 150},
+                {field: 'nationality', headerName: 'Quốc tịch', width: 150},
+                {field: 'gender', headerName: 'Giới tính', width: 150},
+            ]
+            const userInClass = await findAllByClassId(classId);
+            setColumnStudent(column);
+            if (userInClass) {
+                setRowStudent(userInClass.data);
+            }
+        }
     }
 
     const columns = [
@@ -162,7 +190,7 @@ export default function Class(props) {
                         variant="outlined"
                         color="primary"
                         size="small"
-                        // onClick={() => handleStudent(params.row)}
+                        onClick={() => handleStudent(params.row.id)}
                     >
                         <AccountCircleIcon/>
                         Sinh viên
@@ -252,7 +280,7 @@ export default function Class(props) {
                 </div>
             )}
             <DataGrid
-                className="table-container"
+                className="table-container mt-2"
                 rows={rows}
                 columns={columns}
                 pageSize={10}
@@ -270,6 +298,12 @@ export default function Class(props) {
             {isModalOpenSchedule && columnSchedule && (
                 <Modal show={isModalOpenSchedule} fullscreen={true} onHide={() => setIsModalOpenSchedule(false)}>
                     <DataTable rows={rowSchedule} columns={columnSchedule}/>
+                </Modal>
+            )}
+
+            {isModalOpenStudent && columnStudent && (
+                <Modal show={isModalOpenStudent} fullscreen={true} onHide={() => setIsModalOpenStudent(false)}>
+                    <DataTable rows={rowStudent} columns={columnStudent}/>
                 </Modal>
             )}
         </div>

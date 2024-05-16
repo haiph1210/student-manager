@@ -7,13 +7,16 @@ import com.student_manager.dtos.requests.ClassRequest;
 import com.student_manager.entities.Class;
 import com.student_manager.entities.Major;
 import com.student_manager.repositories.ClassRepository;
+import com.student_manager.repositories.UserRepository;
 import com.student_manager.services.MajorService;
+import com.student_manager.services.UserService;
 import com.student_manager.utils.DataUtils;
 import com.student_manager.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
