@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import './register.scss';
 import Swal from "sweetalert2";
 import {register} from "../authentication.service";
+import moment from 'moment';
 
 export default function Register(key, value) {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -55,9 +56,11 @@ export default function Register(key, value) {
                 .min(10, 'Số điện thoại phải ít nhất 10 ký tự')
                 .max(10, 'Số điện thoại không được vượt quá 10 ký tự')
                 .required('Vui lòng nhập số điện thoại.'),
-            dateOfBirth: Yup.date()
-                .typeError('Ngày sinh không hợp lệ')
-                .required('Vui lòng nhập ngày sinh.'),
+            dateOfBirth: Yup.string()
+                .required('Vui lòng nhập ngày sinh.')
+                // .test('is-valid-date', 'Ngày sinh không hợp lệ', value => {
+                //     return moment(value, 'DD/MM/YYYY', true).isValid();
+                // }),
         }),
         onSubmit: async (values) => {
 
@@ -202,6 +205,7 @@ export default function Register(key, value) {
                         label="Ngày sinh"
                         variant="outlined"
                         name="dateOfBirth"
+                        placeholder="DD/MM/YYYY"
                         value={formik.values.dateOfBirth}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
