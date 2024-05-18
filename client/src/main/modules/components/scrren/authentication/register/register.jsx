@@ -18,7 +18,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import './register.scss';
 import Swal from "sweetalert2";
-import {register} from "../authentication.service";
+import {isExistsUsername, register} from "../authentication.service";
 import moment from 'moment';
 
 export default function Register(key, value) {
@@ -44,7 +44,21 @@ export default function Register(key, value) {
             gender: '',
         },
         validationSchema: Yup.object({
-            username: Yup.string().required('Vui lòng nhập tên đăng nhập.'),
+            username: Yup.string().required('Vui lòng nhập tên đăng nhập.')
+                .test('is-unique', 'Tên đăng nhập đã tồn tại.', async function (value) {
+                    if (value) {
+                        const { path, createError } = this;
+                        try {
+                            const response = await isExistsUsername(value);
+                            if (response.data) {
+                                return createError({ path, message: 'Tên đăng nhập đã tồn tại.' });
+                            }
+                        } catch (error) {
+                            return createError({ path, message: 'Lỗi khi kiểm tra tên đăng nhập.' });
+                        }
+                    }
+                    return true;
+                }),
             password: Yup.string().required('Vui lòng nhập mật khẩu.'),
             firstName: Yup.string().required('Vui lòng nhập họ.'),
             lastName: Yup.string().required('Vui lòng nhập tên.'),

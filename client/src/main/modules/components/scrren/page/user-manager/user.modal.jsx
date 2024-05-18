@@ -18,7 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {add, detail, update} from "./user.service"; // Assuming you have a function named detail and update
 import Swal from "sweetalert2";
 import {getAllMajor} from "../major-manager/major.service";
-import {register} from "../../authentication/authentication.service";
+import {isExistsUsername, register} from "../../authentication/authentication.service";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import {Link} from "react-router-dom";
@@ -30,7 +30,7 @@ const UserModal = ({id, type, onClose}) => {
         if (id && type === 'edit') {
             try {
                 const response = await detail(id);
-                if (response&& response.data) {
+                if (response && response.data) {
                     formik.setValues(response.data);
                 } else {
                     Swal.fire({
@@ -70,7 +70,21 @@ const UserModal = ({id, type, onClose}) => {
             gender: '',
         },
         validationSchema: Yup.object({
-            username: Yup.string().required('Vui lòng nhập tên đăng nhập.'),
+            username: Yup.string().required('Vui lòng nhập tên đăng nhập.')
+                .test('is-unique', 'Tên đăng nhập đã tồn tại.', async function (value) {
+                    if (value) {
+                        const {path, createError} = this;
+                        try {
+                            const response = await isExistsUsername(value);
+                            if (response.data) {
+                                return createError({path, message: 'Tên đăng nhập đã tồn tại.'});
+                            }
+                        } catch (error) {
+                            return createError({path, message: 'Lỗi khi kiểm tra tên đăng nhập.'});
+                        }
+                    }
+                    return true;
+                }),
             password: Yup.string().required('Vui lòng nhập mật khẩu.'),
             firstName: Yup.string().required('Vui lòng nhập họ.'),
             lastName: Yup.string().required('Vui lòng nhập tên.'),
@@ -88,7 +102,7 @@ const UserModal = ({id, type, onClose}) => {
         onSubmit: async (values) => {
             try {
                 if (type === 'add') {
-                    const addResponse = await add({ request: values });
+                    const addResponse = await add({request: values});
                     if (addResponse) {
                         Swal.fire({
                             icon: 'success',
@@ -108,7 +122,7 @@ const UserModal = ({id, type, onClose}) => {
                         });
                     }
                 } else if (type === 'edit') {
-                    const updateResponse = await update(id, { request: values });
+                    const updateResponse = await update(id, {request: values});
                     if (updateResponse) {
                         Swal.fire({
                             icon: 'success',
@@ -155,7 +169,7 @@ const UserModal = ({id, type, onClose}) => {
                                 helperText={formik.touched.username && formik.errors.username}
                                 margin="normal"
                                 fullWidth
-                                style={{ display: type === 'edit' ? 'none' : 'block' }}
+                                style={{display: type === 'edit' ? 'none' : 'block'}}
                             />
                             <TextField
                                 label="Mật khẩu"
@@ -169,7 +183,7 @@ const UserModal = ({id, type, onClose}) => {
                                 helperText={formik.touched.password && formik.errors.password}
                                 margin="normal"
                                 fullWidth
-                                style={{ display: type === 'edit' ? 'none' : 'block' }}
+                                style={{display: type === 'edit' ? 'none' : 'block'}}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
