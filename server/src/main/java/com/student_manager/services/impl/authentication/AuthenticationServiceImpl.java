@@ -1,6 +1,7 @@
 package com.student_manager.services.impl.authentication;
 
 import com.student_manager.core.ApiException;
+import com.student_manager.core.BaseResponse;
 import com.student_manager.core.ERROR;
 import com.student_manager.dtos.requests.LoginRequest;
 import com.student_manager.dtos.requests.UserRequest;
@@ -14,11 +15,15 @@ import com.student_manager.utils.DateUtil;
 import com.student_manager.utils.jwt.JwtUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Date;
 
@@ -86,5 +91,9 @@ public class AuthenticationServiceImpl implements com.student_manager.services.A
             registerUser = userService.create(request);
         }
         return registerUser;
+    }
+    @Override
+    public boolean existsByUsername(String username) throws ApiException {
+        return userService.existsByUsername(username);
     }
 }

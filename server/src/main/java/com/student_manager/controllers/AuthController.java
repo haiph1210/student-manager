@@ -7,10 +7,7 @@ import com.student_manager.dtos.requests.UserRequest;
 import com.student_manager.services.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,5 +34,11 @@ public class AuthController {
     public ResponseEntity<?> registerAdmin(@RequestBody UserRequest request) throws ApiException {
         BaseResponse<?> response = new BaseResponse<>(authenticationService.register(request, true));
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/isExistsUsername/{username}")
+    public ResponseEntity<?> existsByUsername(@PathVariable String username) throws ApiException {
+        BaseResponse<?> baseResponse = new BaseResponse<>(authenticationService.existsByUsername(username));
+        return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 }

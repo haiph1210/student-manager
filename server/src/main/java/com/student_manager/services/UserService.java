@@ -18,6 +18,8 @@ public interface UserService {
 
     User findByUsername(String username) throws ApiException;
 
+    boolean existsByUsername(String username) throws ApiException;
+
     User findByUsernameAndEmailAndPhoneNumber(String username, String email, String phoneNumber) throws ApiException;
 
     User create(UserRequest request) throws ApiException;

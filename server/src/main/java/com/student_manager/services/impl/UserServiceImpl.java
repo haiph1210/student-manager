@@ -75,6 +75,11 @@ public class UserServiceImpl extends BaseService implements com.student_manager.
     }
 
     @Override
+    public boolean existsByUsername(String username) throws ApiException {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
     public User findByUsernameAndEmailAndPhoneNumber(String username, String email, String phoneNumber) throws ApiException {
         return userRepository.findByUsernameAndEmailAndPhoneNumber(username, email, phoneNumber)
                 .orElseThrow(()

@@ -58,6 +58,7 @@ public class UserController {
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody UserRequest request) throws ApiException {
         BaseResponse<?> baseResponse = new BaseResponse<>(userService.create(request).getId());
