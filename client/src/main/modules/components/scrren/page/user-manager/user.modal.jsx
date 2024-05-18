@@ -82,9 +82,8 @@ const UserModal = ({id, type, onClose}) => {
                 .min(10, 'Số điện thoại phải ít nhất 10 ký tự')
                 .max(10, 'Số điện thoại không được vượt quá 10 ký tự')
                 .required('Vui lòng nhập số điện thoại.'),
-            dateOfBirth: Yup.date()
-                .typeError('Ngày sinh không hợp lệ')
-                .required('Vui lòng nhập ngày sinh.'),
+            dateOfBirth: Yup.string()
+                .required('Vui lòng nhập ngày sinh.')
         }),
         onSubmit: async (values) => {
             try {
@@ -264,6 +263,7 @@ const UserModal = ({id, type, onClose}) => {
                                 label="Ngày sinh"
                                 variant="outlined"
                                 name="dateOfBirth"
+                                placeholder="DD/MM/YYYY"
                                 value={formik.values.dateOfBirth}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}

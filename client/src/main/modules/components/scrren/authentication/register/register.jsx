@@ -58,9 +58,6 @@ export default function Register(key, value) {
                 .required('Vui lòng nhập số điện thoại.'),
             dateOfBirth: Yup.string()
                 .required('Vui lòng nhập ngày sinh.')
-                // .test('is-valid-date', 'Ngày sinh không hợp lệ', value => {
-                //     return moment(value, 'DD/MM/YYYY', true).isValid();
-                // }),
         }),
         onSubmit: async (values) => {
 
